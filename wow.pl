@@ -13,6 +13,10 @@ player(100,100,100).
 
 at(radar,7,7).
 at(knife,7,6).
+at(spear,7,6).
+
+weapon(spear).
+weapon(knife).
 
 alive(enemy,7,7).
 
@@ -53,8 +57,17 @@ moved :- player(Ht,Hg,Th),
     Hgnew is Hg - 3, Thnew is Th - 3,
     retract(player(Ht,Hg,Th)),
     asserta(player(Ht,Hgnew,Thnew))
-    .%alive.
+    ,playerchk.
 
+/* check alive */
+playerchk :- player(Ht,Hg,Th),
+	Ht < 0,Hg < 0, Th < 0, !, die.
+
+die :- 
+	write('Your vision slowly fade while you'),nl,
+	write('took your last breath'),nl,
+	write('You Died - GAMEOVER'),nl,halt.
+	
 /***** LOOK COMMAND *****/
 look :-                 % tanpa radar
     i_am_at(X,Y),
@@ -98,10 +111,35 @@ printLookMap :-
 map :-
 	playerInventory(L),
 	searchInven('radar', L, yes),
-	edgeY(MaxY).
-    recPrintRadar(1,MaxY), !.	
+    recPrintRadar(1,15), !.	
 	
 map :-
+	playerInventory(L),
+	searchInven('radar', L, no),
+    write('Get a radar first!'), !.
+
+recPrintRadar(X,1) :-
+	edgeX(X), !.
+	
+recPrintRadar(X,Y) :-
+	\+edgeX(X),
+	XPlus is X+1,
+	printOneTile(X,Y), tab(1),
+	recPrintRadar(XPlus,Y), !.
+	
+recPrintRadar(X,Y) :-
+	edgeX(X),
+	YPlus is Y-1,
+	nl,
+	recPrintRadar(1,YPlus).	
+/**** END OF RADAR COMMAND *****/
+
+printRadarMap :-
+	playerInventory(L),
+	searchInven('radar', L, yes),
+    recPrintRadar(1,15), !.	
+	
+printRadarMap :-
 	playerInventory(L),
 	searchInven('radar', L, no),
     write('Get a radar first!'), !.
@@ -167,6 +205,20 @@ describe(_,_) :-
 /***** ACTION *****/
 
 /*** Taking an item ***/
+take(Item) :- 
+	i_am_at(X,Y),
+    at(Item,X,Y),
+    at(Weapon,in,hand),
+    weapon(Item),weapon(Weapon),
+    write('You cannot hold 2 weapon at once!'),nl,!.
+
+take(Item) :-
+	i_am_at(X,Y),
+    at(Item,X,Y),
+    weapon(Item),
+    retract(at(Item,X,Y)),
+    asserta(at(Item,in,hand)),nl, !.
+
 take(Item) :-
     i_am_at(X,Y),
     at(Item,X,Y),
@@ -202,25 +254,37 @@ drop(_) :-
 
 /** Attacking an enemy **/
 attack :-
-    i_am_at(X,Y),
+	i_am_at(X,Y),
     alive(enemy,X,Y),
-    at(knife,in,inven),
+    at(spear,in,hand),
     retract(alive(enemy,X,Y)),
     retract(player(Pts,Hgr,Thr)),
-    NewPts is Pts - 13, % dmgnya diganti konstanta aja
+    NewPts is Pts - 9, % dmgnya diganti konstanta aja
     asserta(player(NewPts,Hgr,Thr)),
-    write('You took 13 damage and the enemy died'),nl,
-    write('Your health is '), write(NewPts).
+    write('You took 21 damage and the enemy died'),nl,
+    write('Your health is '), write(NewPts),nl,
+    finish.
+
+attack :-
+    i_am_at(X,Y),
+    alive(enemy,X,Y),
+    at(knife,in,hand),
+    retract(alive(enemy,X,Y)),
+    retract(player(Pts,Hgr,Thr)),
+    NewPts is Pts - 21, % dmgnya diganti konstanta aja
+    asserta(player(NewPts,Hgr,Thr)),
+    write('You took 21 damage and the enemy died'),nl,
+    write('Your health is '), write(NewPts),nl,
+    finish.
 
 attack :-
     i_am_at(X,Y),
     alive(enemy,X,Y),
     retract(player(Pts,Hgr,Thr)),
-    NewPts is Pts-13, %dmgnya diganti konstanta aja
+    NewPts is Pts-21, %dmgnya diganti konstanta aja
     asserta(player(NewPts,Hgr,Thr)),
-    write('You can''t attack and took 13 damage'),nl,
+    write('You can''t attack and took 21 damage'),nl,
     write('Your health is '),write(NewPts).
-
 
 attack :-
     write('There is nothing to attack'),nl.
@@ -278,3 +342,6 @@ printInven([X]) :-
 printInven([H|T]) :-
     write(X), nl,
     printInven(T).
+
+finish :- 
+        \+alive(_,_,_),write('The game ends'),nl,halt.
