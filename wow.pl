@@ -123,36 +123,36 @@ printLookMap :-
 %     succ(Y, NextY),
 %     printRadarX(X, NextY).
 
-printOneTile(X,Y) :-
+printOneTile(X,Y) :-    % enemy
     alive(enemy,X,Y),
     write('E'), !.
 
-printOneTile(X,Y) :-
+printOneTile(X,Y) :-    % medicine
     at(medicine,X,Y),
     write('M'), !.
 
-printOneTile(X,Y) :-
+printOneTile(X,Y) :-    % food
     at(food,X,Y),
     write('F'), !.
 
-printOneTile(X,Y) :-
+printOneTile(X,Y) :-    % water
     at(water,X,Y),
     write('W'), !.
 
-printOneTile(X,Y) :-
+printOneTile(X,Y) :-    % weapon
     (at(knife,X,Y) ; at(arrow,X,Y)),
-    write('W'), !.
+    write('#'), !.
 
-printOneTile(X,Y) :-
+printOneTile(X,Y) :-    % player
     i_am_at(X,Y),
     write('P'), !.
 
-printOneTile(X,Y) :-
+printOneTile(X,Y) :-    % accessible
     X =< 20, Y =< 10,
-    write('X'), !.
+    write('-'), !.
 
-printOneTile(X,Y) :-
-    write('-').
+printOneTile(X,Y) :-    % inaccessible
+    write('X').
 
 /***** GAME INITIALIZATION *****/
 start :-
@@ -274,8 +274,8 @@ printInven([]) :-
     write('You have no item in your inventory.'), nl, !.
 
 printInven([X]) :-
-    format('You have ~a.', [X]), !.
+    write(X), !.
 
 printInven([H|T]) :-
-    format('You have ~a.', [H]), nl,
+    write(X), nl,
     printInven(T).
