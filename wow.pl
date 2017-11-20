@@ -103,25 +103,33 @@ printLookMap :-
     printOneTile(XMin,YMin), tab(1),
     printOneTile(X,YMin), tab(1),
     printOneTile(XPlus,YMin), nl, !.
+    
+/***** RADAR COMMAND *****/	
+printRadarMap :-
+	playerInventory(L),
+	searchInven('radar', L, yes),
+    recPrintRadar(1,15), !.	
+	
+printRadarMap :-
+	playerInventory(L),
+	searchInven('radar', L, no),
+    write('Get a radar first!'), !.
 
-% printRadarMap :-
-%     printRadarX(1,1).
-
-% printRadarY(X,Y) :-
-%     X > 20, !.
-
-% printRadarY(X,Y) :-
-%     succ(X, NextX),
-%     printOneTile(X,Y), tab(1),
-%     printRadarCol(NextX, Y).
-
-% printRadarX(X,Y) :-
-%     Y > 10, !.
-
-% printRadarX(X,Y) :-
-%     printRadarY(X,Y), nl,
-%     succ(Y, NextY),
-%     printRadarX(X, NextY).
+recPrintRadar(X,1) :-
+	edgeX(X), !.
+	
+recPrintRadar(X,Y) :-
+	\+edgeX(X),
+	XPlus is X+1,
+	printOneTile(X,Y), tab(1),
+	recPrintRadar(XPlus,Y), !.
+	
+recPrintRadar(X,Y) :-
+	edgeX(X),
+	YPlus is Y-1,
+	nl,
+	recPrintRadar(1,YPlus).	
+/**** END OF RADAR COMMAND *****/
 
 printOneTile(X,Y) :-    % enemy
     alive(enemy,X,Y),
