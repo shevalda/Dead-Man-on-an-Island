@@ -4,6 +4,11 @@
    initial position : (7,6) */
 i_am_at(7,6).
 
+/* terrain location */
+forestLoc([3,6],[6,13]).
+forestLoc([3,3],[4,7]).
+forestLoc([3,9],[13,12]).
+
 /* Player's stats
    Initial stats:
         Health = 100
@@ -172,11 +177,14 @@ start :-
     instructions,
     look.
 
-describe(7,7) :-
-    write('you\'re in the treasure spot!'), nl, !.
+describe(X,Y) :-
+    forestLoc([XStart,YStart],[XEnd,YEnd]),
+    X>=XStart, X=<XEnd,
+    Y>=YStart, Y=<YEnd, 
+    write('You \'re in the forest!'), nl, !.
 
 describe(_,_) :-
-    write('you\'re near treasure spot!'), nl.
+    write('You\'re on an open field!'), nl.
 
 /***** ACTION *****/
 
