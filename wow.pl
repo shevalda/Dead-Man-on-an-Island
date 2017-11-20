@@ -4,6 +4,13 @@
    initial position : (3,4) */
 i_am_at(3,4).
 
+/* map size */
+edge([1,14],[1,14]).
+edgeOffset([X1,X2],[Y1,Y2]) :- 
+	edge([XEdge1,XEdge2],[YEdge1,YEdge2]),
+	X1 is XEdge1-2, X2 is XEdge2+2,
+	Y1 is YEdge1-2, Y2 is YEdge2+2.
+
 /* terrain location */
 forestLoc([3,6],[6,13]).
 forestLoc([3,3],[4,7]).
@@ -163,28 +170,31 @@ printLookMap :-
 map :-
 	playerInventory(L),
 	searchInven('radar', L, yes),
-	edgeY(MaxY),
-    recPrintRadar(1,MaxY), !.	
+	edgeOffset([XMin,_],[_,YMax]),
+    recPrintRadar(XMin,YMax), !.	
 	
 map :-
 	playerInventory(L),
 	searchInven('radar', L, no),
     write('Get a radar first!'), !.
 
-recPrintRadar(X,1) :-
-	edgeX(X), !.
+recPrintRadar(X,Y) :-
+	edgeOffset([_,X],[Y,_]),
+	printOneTile(X,Y), tab(1), !.
 	
 recPrintRadar(X,Y) :-
-	\+edgeX(X),
+	\+edgeOffset([_,X],_),
 	XPlus is X+1,
 	printOneTile(X,Y), tab(1),
 	recPrintRadar(XPlus,Y), !.
 	
 recPrintRadar(X,Y) :-
-	edgeX(X),
-	YPlus is Y-1,
+	edgeOffset([_,X],_),
+	edgeOffset([XMin,_],_),
+	YMin is Y-1,
+	printOneTile(X,Y), tab(1),
 	nl,
-	recPrintRadar(1,YPlus).	
+	recPrintRadar(XMin,YMin).	
 /**** END OF RADAR COMMAND *****/
 
 printOneTile(X,Y) :-    % enemy
@@ -211,12 +221,12 @@ printOneTile(X,Y) :-    % player
     i_am_at(X,Y),
     write('P'), !.
 
-printOneTile(X,Y) :-
-    edgeX(MaxX), edgeY(MaxY),	$ accessible
-    X =< MaxX, Y =< MaxY,
+printOneTile(X,Y) :-	%accessible
+	edge([XMin,XMax],[YMin,YMax]),
+    X >=XMin, X=<XMax, Y>=YMin, Y=<YMax,
     write('-'), !.
 
-printOneTile(X,Y) :-		#inaccessible
+printOneTile(X,Y) :-		%inaccessible
     write('#').
 
 /***** GAME INITIALIZATION *****/
