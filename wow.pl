@@ -442,7 +442,7 @@ randomEnemy :-
     fail.
 
 /* Command SAVE */
-save(FileName) :-		# contoh perintah: save('filename.pl')
+save(FileName) :-		% contoh perintah: save('filename.pl')
     tell(FileName),
     listing(at),
     listing(i_am_at),
@@ -452,5 +452,5 @@ save(FileName) :-		# contoh perintah: save('filename.pl')
     told.
 
 /* Command LOAD */
-loadlocal(FileName) :-		# contoh perintah: loadlocal(filename)
+loadlocal(FileName) :-		% contoh perintah: loadlocal(filename)
     [FileName].
