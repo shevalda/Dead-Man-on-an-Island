@@ -1,8 +1,8 @@
 :- dynamic(at/3, i_am_at/2, alive/3, player/3, playerInventory/1).
 
 /* player's current position
-   initial position : (7,6) */
-i_am_at(7,6).
+   initial position : (3,4) */
+i_am_at(3,4).
 
 /* terrain location */
 forestLoc([3,6],[6,13]).
@@ -16,14 +16,61 @@ forestLoc([3,9],[13,12]).
         Thrist = 100 */
 player(100,100,100).
 
-at(radar,7,7).
-at(knife,7,6).
-at(spear,7,6).
+
+at(radar,6,8).
+at(knife,3,3).
+at(spear,6,13).
+
+/*expired foods -health +hunger*/
+at(sarden,5,7). %expired
+at(kornet,7,3). %expired
+at(yogurt,9,5). %expired
+at(kornet,12,7).
+
+/*healthy foods +health ++hunger*/
+at(nasgor,5,13).
+at(popmie,3,9).
+at(popmie,13,4).
+at(nasgor,10,9).
+
+/*dirty water -health +thirst*/
+at(coca_cola,5,4).
+at(coca_cola,10,3).
+
+/*clean water +thirst*/
+at(water,11,6).
+at(water,11,11).
+at(water,5,9).
+at(water,3,11).
+
+expired(sarden).
+expired(kornet).
+expired(yogurt).
+expired(coca_cola).
+
+food(nasgor).
+food(popmie).
+food(sarden).
+food(kornet).
+food(yogurt).
+
+drink(water).
+drink(coca_cola).
 
 weapon(spear).
 weapon(knife).
 
-alive(enemy,7,7).
+alive(enemy,3,13).
+alive(enemy,5,11).
+alive(enemy,8,12).
+alive(enemy,13,9).
+alive(enemy,3,8).
+alive(enemy,10,7).
+alive(enemy,12,7).
+alive(enemy,12,6).
+alive(enemy,7,4).
+alive(enemy,9,4).
+alive(enemy,13,3).
 
 /* Player's list of inventory */
 playerInventory([]).
@@ -62,7 +109,7 @@ moved :- player(Ht,Hg,Th),
     Hgnew is Hg - 3, Thnew is Th - 3,
     retract(player(Ht,Hg,Th)),
     asserta(player(Ht,Hgnew,Thnew))
-    ,playerchk.
+    ,randomEnemy,playerchk.
 
 /* check alive */
 playerchk :- player(Ht,Hg,Th),
@@ -330,6 +377,59 @@ printInven([H|T]) :-
 finish :- 
         \+alive(_,_,_),write('The game ends'),nl,halt.
 	
+
+use(Item) :-
+    food(Item),expired(Item),
+    playerInventory(L),
+    searchInven(Item,L,yes),delInven(Item),
+    retract(player(Pts,Hgr,Thr)),
+    NewPts is Pts-7,NewHgr is Hgr + 10,
+    asserta(player(NewPts,NewHgr,Thr)),
+    write('You ate an EXPIRED '),write(Item),nl,
+    write('you don''t feel healthy'),nl,!.
+
+use(Item) :-
+    food(Item),
+    playerInventory(L),
+    searchInven(Item,L,yes),delInven(Item),
+    retract(player(Pts,Hgr,Thr)),
+    NewPts is Pts+3,NewHgr is Hgr + 20,
+    asserta(player(NewPts,NewHgr,Thr)),
+    write('You ate '),write(Item),nl,
+    write('you feel satisfied'),nl,!.
+
+use(Item) :-
+    drink(Item),expired(Item),
+    playerInventory(L),
+    searchInven(Item,L,yes),delInven(Item),
+    retract(player(Pts,Hgr,Thr)),
+    NewPts is Pts-7,NewThr is Thr + 10,
+    asserta(player(NewPts,Hgr,NewThr)),
+    write('You drank an EXPIRED '),write(Item),nl,
+    write('you don''t feel healthy'),nl,!.
+
+use(Item) :-
+    drink(Item),
+    playerInventory(L),
+    searchInven(Item,L,yes),delInven(Item),
+    retract(player(Pts,Hgr,Thr)),
+    NewPts is Pts+3,NewThr is Thr + 20,
+    asserta(player(NewPts,Hgr,NewThr)),
+    write('You drank '),write(Item),nl,
+    write('you feel satisfied'),nl,!.
+
+use(Item) :-
+    playerInventory(L),
+    searchInven(Item,L,no),
+    write('you don''t have it!'),nl.
+
+randomEnemy :-
+    alive(enemy,X,Y),
+    random(-1,1,Dx),random(-1,1,Dy),
+    retract(alive(enemy,X,Y)),
+    Xnew is X + Dx, Ynew is Y + Dy,
+    asserta(alive(enemy,Xnew,Ynew)),
+    fail.
 
 /* Command SAVE */
 save(FileName) :-		# contoh perintah: save('filename.pl')
