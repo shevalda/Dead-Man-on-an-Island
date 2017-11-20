@@ -56,16 +56,6 @@ moved :- player(Ht,Hg,Th),
     .%alive.
 
 /***** LOOK COMMAND *****/
-look :-                 % dengan radar
-    i_am_at(X,Y),
-    %at(radar,in,inven)
-    describe(X,Y),
-    nl,
-    %printradar(X,Y), %belum ada fungsi printradar
-    notice_objects_at(X,Y),
-    notice_enemy_at(X,Y),
-    nl.
-
 look :-                 % tanpa radar
     i_am_at(X,Y),
     describe(X,Y),
@@ -103,8 +93,34 @@ printLookMap :-
     printOneTile(XMin,YMin), tab(1),
     printOneTile(X,YMin), tab(1),
     printOneTile(XPlus,YMin), nl, !.
-    
+
 /***** RADAR COMMAND *****/	
+map :-
+	playerInventory(L),
+	searchInven('radar', L, yes),
+    recPrintRadar(1,15), !.	
+	
+map :-
+	playerInventory(L),
+	searchInven('radar', L, no),
+    write('Get a radar first!'), !.
+
+recPrintRadar(X,1) :-
+	edgeX(X), !.
+	
+recPrintRadar(X,Y) :-
+	\+edgeX(X),
+	XPlus is X+1,
+	printOneTile(X,Y), tab(1),
+	recPrintRadar(XPlus,Y), !.
+	
+recPrintRadar(X,Y) :-
+	edgeX(X),
+	YPlus is Y-1,
+	nl,
+	recPrintRadar(1,YPlus).	
+/**** END OF RADAR COMMAND *****/
+
 printRadarMap :-
 	playerInventory(L),
 	searchInven('radar', L, yes),
