@@ -111,35 +111,10 @@ printLookMap :-
 map :-
 	playerInventory(L),
 	searchInven('radar', L, yes),
-    recPrintRadar(1,15), !.	
+	edgeY(MaxY),
+    recPrintRadar(1,MaxY), !.	
 	
 map :-
-	playerInventory(L),
-	searchInven('radar', L, no),
-    write('Get a radar first!'), !.
-
-recPrintRadar(X,1) :-
-	edgeX(X), !.
-	
-recPrintRadar(X,Y) :-
-	\+edgeX(X),
-	XPlus is X+1,
-	printOneTile(X,Y), tab(1),
-	recPrintRadar(XPlus,Y), !.
-	
-recPrintRadar(X,Y) :-
-	edgeX(X),
-	YPlus is Y-1,
-	nl,
-	recPrintRadar(1,YPlus).	
-/**** END OF RADAR COMMAND *****/
-
-printRadarMap :-
-	playerInventory(L),
-	searchInven('radar', L, yes),
-    recPrintRadar(1,15), !.	
-	
-printRadarMap :-
 	playerInventory(L),
 	searchInven('radar', L, no),
     write('Get a radar first!'), !.
@@ -178,18 +153,19 @@ printOneTile(X,Y) :-    % water
 
 printOneTile(X,Y) :-    % weapon
     (at(knife,X,Y) ; at(arrow,X,Y)),
-    write('#'), !.
+    write('W'), !.
 
 printOneTile(X,Y) :-    % player
     i_am_at(X,Y),
     write('P'), !.
 
-printOneTile(X,Y) :-    % accessible
-    X =< 20, Y =< 10,
+printOneTile(X,Y) :-
+    edgeX(MaxX), edgeY(MaxY),	$ accessible
+    X =< MaxX, Y =< MaxY,
     write('-'), !.
 
-printOneTile(X,Y) :-    % inaccessible
-    write('X').
+printOneTile(X,Y) :-		#inaccessible
+    write('#').
 
 /***** GAME INITIALIZATION *****/
 start :-
