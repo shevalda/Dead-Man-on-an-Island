@@ -92,17 +92,17 @@ printLookMap :-
     XPlus is X+1, YPlus is Y+1,
     XMin is X-1, YMin is Y-1,
     % baris pertama
-    printOneTile(XPlus,YPlus), tab(1),
+    printOneTile(XMin,YPlus), tab(1),
     printOneTile(X,YPlus), tab(1),
-    printOneTile(XMin,YPlus), nl,
+    printOneTile(XPlus,YPlus), nl,
     % baris kedua
-    printOneTile(XPlus,Y), tab(1),
+    printOneTile(XMin,Y), tab(1),
     printOneTile(X,Y), tab(1),
-    printOneTile(XMin,Y), nl,
+    printOneTile(XPlus,Y), nl,
     % baris ketiga
-    printOneTile(XPlus,YMin), tab(1),
+    printOneTile(XMin,YMin), tab(1),
     printOneTile(X,YMin), tab(1),
-    printOneTile(XMin,YMin), nl, !.
+    printOneTile(XPlus,YMin), nl, !.
 
 % printRadarMap :-
 %     printRadarX(1,1).
