@@ -321,3 +321,18 @@ printInven([H|T]) :-
 
 finish :- 
         \+alive(_,_,_),write('The game ends'),nl,halt.
+	
+
+/* Command SAVE */
+save(FileName) :-		# contoh perintah: save('filename.pl')
+    tell(FileName),
+    listing(at),
+    listing(i_am_at),
+    listing(alive),
+    listing(player),
+    listing(playerInventory),
+    told.
+
+/* Command LOAD */
+loadlocal(FileName) :-		# contoh perintah: loadlocal(filename)
+    [FileName].
