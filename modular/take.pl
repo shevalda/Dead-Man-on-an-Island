@@ -3,7 +3,7 @@ take(Item) :-
 	i_am_at(X,Y),
     at(Item,X,Y),
     at(Weapon,in,hand),
-    weapon(Item),weapon(Weapon),
+    weapon(Item), weapon(Weapon),
     write('You cannot hold 2 weapon at once!'),nl,!.
 
 take(Item) :-
@@ -11,7 +11,7 @@ take(Item) :-
     at(Item,X,Y),
     weapon(Item),
     retract(at(Item,X,Y)),
-    asserta(at(Item,in,hand)),nl, !.
+    asserta(at(Item,in,hand)), nl, !.
 
 take(Item) :-
     i_am_at(X,Y),

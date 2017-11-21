@@ -12,5 +12,5 @@ save_game(FileName) :-		% contoh perintah: save_game('filename.pl')
 /*** LOADLOCAL - Loading game state from a chosen file ***/
 load_game(FileName) :-		% contoh perintah: load_game(filename)
     % retract semua fakta
-    [FileName],
+    [FileName], nl,
     write('Your gameplay from '), write(FileName), write('.pl has been loaded.').
