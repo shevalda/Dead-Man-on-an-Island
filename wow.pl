@@ -1,4 +1,4 @@
-:- dynamic(at/3, i_am_at/2, alive/3, player/3, playerInventory/1).
+:- dynamic(at/3, i_am_at/2, alive/3, player/3, playerInventory/1, playerWeapon/1).
 
 /* player's current position
    initial position : (3,4) */
@@ -22,9 +22,9 @@ forestLoc([3,9],[13,12]).
         Hunger = 100
         Thrist = 100 */
 player(100,100,100).
+playerWeapon(none).
 
-
-at(radar,6,8).
+at(radar,3,4).
 at(knife,3,3).
 at(spear,6,13).
 
@@ -81,56 +81,76 @@ alive(enemy,13,3).
 
 /* Player's list of inventory */
 playerInventory([]).
+
+/*****PLAYER STATUS BEGIN*****/
+status :-
+	player(Ht,Hg,Th),
+	write('Health : '), write(Ht), nl,
+	write('Hunger : '), write(Hg), nl,
+	write('Thirst : '), write(Th), nl,
+	write('Weapon : '), playerWeapon(Weapon), write(Weapon), nl,
+	write('Inventory : '), nl, inventory, nl, !.
+/*****PLAYER STATUS END*****/
+
 /***** PLAYER'S MOVE *****/
 /* Moving to north */
-n :- i_am_at(X,Y),Y =:= 14,
-    write('You cannot go there!')!,nl,.
+n :- i_am_at(X,Y),
+	edge(_,[_,YMax]),
+	Y =:= YMax,
+    write('You cannot go there!'), nl, !.
 
 n :- i_am_at(X,Y),
     retract(i_am_at(X,Y)),
     Ynew is Y + 1,
     asserta(i_am_at(X,Ynew)),
-    moved,!.
+    \+moved, look, !.
 
 /* Moving to south */
-s :- i_am_at(X,Y),Y =:= 1,
-    write('You cannot go there!')!,nl,.
+s :- i_am_at(X,Y),
+	edge(_,[YMin,_]),
+	Y =:= YMin,
+    write('You cannot go there!'), nl, !.
 
 s :- i_am_at(X,Y),
     retract(i_am_at(X,Y)),
     Ynew is Y - 1,
     asserta(i_am_at(X,Ynew)),
-    moved, !.
+    \+moved, look, !.
 
 /* Moving to east */
-e :- i_am_at(X,Y),X =:= 15,
-    write('You cannot go there!')!,nl,.
+e :- i_am_at(X,Y),
+	edge([_,XMax],_),
+	X =:= XMax,
+    write('You cannot go there!'), nl, !.
 
 e :- i_am_at(X,Y),
     retract(i_am_at(X,Y)),
     Xnew is X + 1,
     asserta(i_am_at(Xnew,Y)),
-    moved,!.
+    \+moved, look, !.
 
 /* Moving to west */
-w :- i_am_at(X,Y),X =:= 11,
-    write('You cannot go there!')!,nl,.
+w :- i_am_at(X,Y),
+	edge([XMin,_],_),
+	X =:= XMin,
+    write('You cannot go there!'), nl, !.
 
 w :- i_am_at(X,Y),
     retract(i_am_at(X,Y)),
     Xnew is X - 1,
     asserta(i_am_at(Xnew,Y)),
-    moved, !.
+    \+moved, look, !.
+	
 /* Changing the player's stats with changing position */
 moved :- player(Ht,Hg,Th),
     Hgnew is Hg - 3, Thnew is Th - 3,
     retract(player(Ht,Hg,Th)),
-    asserta(player(Ht,Hgnew,Thnew))
-    ,randomEnemy,playerchk.
+    asserta(player(Ht,Hgnew,Thnew)),
+    \+randomEnemyMove, playerchk.
 
 /* check alive */
 playerchk :- player(Ht,Hg,Th),
-	Ht < 0,Hg < 0, Th < 0, !, die.
+	Ht < 0,Hg < 0, Th < 0, die.
 
 die :- 
 	write('Your vision slowly fade while you'),nl,
@@ -144,8 +164,7 @@ look :-                 % tanpa radar
     nl,
     printLookMap,
     notice_objects_at(X,Y),
-    notice_enemy_at(X,Y),
-    nl.
+    notice_enemy_at(X,Y).
 
 notice_objects_at(X,Y) :-
     at(Item, X,Y),
@@ -224,8 +243,8 @@ printOneTile(X,Y) :-    % water
     write('W'), !.
 
 printOneTile(X,Y) :-    % weapon
-    (at(knife,X,Y) ; at(arrow,X,Y)),
-    write('W'), !.
+    (at(knife,X,Y) ; at(spear,X,Y)),
+    write('#'), !.
 
 printOneTile(X,Y) :-    % player
     i_am_at(X,Y),
@@ -237,12 +256,12 @@ printOneTile(X,Y) :-	%accessible
     write('-'), !.
 
 printOneTile(X,Y) :-		%inaccessible
-    write('#').
+    write('X').
 
 /***** GAME INITIALIZATION *****/
 start :-
     instructions,
-    look.
+    nl, look.
 
 describe(X,Y) :-
     forestLoc([XStart,YStart],[XEnd,YEnd]),
@@ -256,35 +275,37 @@ describe(_,_) :-
 /***** ACTION *****/
 
 /*** Taking an item ***/
-take(Item) :- 
-	i_am_at(X,Y),
-    at(Item,X,Y),
-    at(Weapon,in,hand),
-    weapon(Item),weapon(Weapon),
-    write('You cannot hold 2 weapon at once!'),nl,!.
-
-take(Item) :-
+take(Item) :- 					% weapon unable to take
 	i_am_at(X,Y),
     at(Item,X,Y),
     weapon(Item),
-    retract(at(Item,X,Y)),
-    asserta(at(Item,in,hand)),nl, !.
+    \+ playerWeapon(none),
+    write('You cannot hold 2 weapon at once!'),nl,!.
 
-take(Item) :-
+take(Item) :-					% weapon able to take
+	i_am_at(X,Y),
+    at(Item,X,Y),
+    weapon(Item),
+	playerWeapon(none),
+    retract(at(Item,X,Y)),
+    retract(playerWeapon(none)),
+    asserta(playerWeapon(Item)),nl, !.
+
+take(Item) :-					% item able to take
     i_am_at(X,Y),
     at(Item,X,Y),
     retract(at(Item,X,Y)),
     addInven(Item),
     format('You took ~a.', [Item]), nl, !.
 
-take(Item) :-
+take(Item) :-					% item unable to take
     playerInventory(Inven),
     searchInven(Item, Inven, Bool),
     Bool = yes,
     write('You already took ~a!', [Item]),
     nl, !.
 
-take(_) :-
+take(_) :-						% taking empty space
     write('I don''t see anything here.'),
     nl.
 
@@ -305,28 +326,33 @@ drop(_) :-
 
 /** Attacking an enemy **/
 attack :-
+    i_am_at(X,Y),
+    \+alive(enemy,X,Y),
+    write('There is nothing to attack'),nl.
+	
+attack :-
 	i_am_at(X,Y),
     alive(enemy,X,Y),
-    at(spear,in,hand),
+    playerWeapon(spear),
     retract(alive(enemy,X,Y)),
     retract(player(Pts,Hgr,Thr)),
     NewPts is Pts - 9, % dmgnya diganti konstanta aja
     asserta(player(NewPts,Hgr,Thr)),
     write('You took 21 damage and the enemy died'),nl,
     write('Your health is '), write(NewPts),nl,
-    finish.
+    finish, !.
 
 attack :-
     i_am_at(X,Y),
     alive(enemy,X,Y),
-    at(knife,in,hand),
+    playerWeapon(knife),
     retract(alive(enemy,X,Y)),
     retract(player(Pts,Hgr,Thr)),
     NewPts is Pts - 21, % dmgnya diganti konstanta aja
     asserta(player(NewPts,Hgr,Thr)),
     write('You took 21 damage and the enemy died'),nl,
     write('Your health is '), write(NewPts),nl,
-    finish.
+    finish, !.
 
 attack :-
     i_am_at(X,Y),
@@ -335,10 +361,7 @@ attack :-
     NewPts is Pts-21, %dmgnya diganti konstanta aja
     asserta(player(NewPts,Hgr,Thr)),
     write('You can''t attack and took 21 damage'),nl,
-    write('Your health is '),write(NewPts).
-
-attack :-
-    write('There is nothing to attack'),nl.
+    write('Your health is '),write(NewPts), !.
 
 /***** INVENTORY *****/
 /** Search in Inventory **/
@@ -443,14 +466,27 @@ use(Item) :-
     searchInven(Item,L,no),
     write('you don''t have it!'),nl.
 
-randomEnemy :-
+randomEnemyMove :-
     alive(enemy,X,Y),
-    random(-1,1,Dx),random(-1,1,Dy),
+	edge([XMin,XMax],[YMin,YMax]),
+	randomize,
+    random(-1,1,Val),
+	random(0,1,Dir),			% 0 untuk gerak ke atas/bawah, 1 untuk gerak ke kanan/kiri
+    Xnew is X + Val*Dir, Ynew is Y + Val*abs((Dir-1)),
+	Xnew >= XMin, Xnew =< XMax, Ynew >= YMin, Ynew =< YMax,
     retract(alive(enemy,X,Y)),
-    Xnew is X + Dx, Ynew is Y + Dy,
     asserta(alive(enemy,Xnew,Ynew)),
+	i_am_at(Xnew,Ynew),
+	enemyAttack,
     fail.
-
+	
+enemyAttack :-
+    retract(player(Pts,Hgr,Thr)),
+    NewPts is Pts-10, %dmgnya diganti konstanta aja
+    asserta(player(NewPts,Hgr,Thr)),
+    write('You were attacked and took 10 damage'),nl,
+    write('Your health is '),write(NewPts), nl, !.		
+	
 /* Command SAVE */
 save(FileName) :-		% contoh perintah: save('filename.pl')
     tell(FileName),
@@ -499,4 +535,4 @@ help :-
 		write(' attack.                     : to attack  an enemy in same square'),nl,
 		write(' status.                     : to show the player status(health, hunger, thirst, weapon)'),nl,
 		write(' save(''filename.pl'').        : to save a game'),nl,
-		write(' load(filename).             : to load saved game').
+write(' load(filename).             : to load saved game').
