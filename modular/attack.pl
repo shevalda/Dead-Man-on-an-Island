@@ -8,6 +8,7 @@ attack :-
     NewPts is Pts - 9,              % damage yang kena ketika pakai spear = 9
     asserta(player(NewPts,Hgr,Thr)),
     write('You took 21 damage and the enemy died'),nl,
+    playerchk,
     write('Your health is '), write(NewPts),nl,
     finish.
 
@@ -20,6 +21,7 @@ attack :-
     NewPts is Pts - 21,             % damage yang diterima ketika pakai knife = 21
     asserta(player(NewPts,Hgr,Thr)),
     write('You took 21 damage and the enemy died'),nl,
+    playerchk,
     write('Your health is '), write(NewPts), nl,
     finish.
 
@@ -30,6 +32,7 @@ attack :-
     NewPts is Pts-21,               % damage yang diterima ketika tidak memegang weapon = 21
     asserta(player(NewPts,Hgr,Thr)),
     write('You can''t attack and took 21 damage'), nl,
+    playerchk,
     write('Your health is '), write(NewPts).
 
 attack :-
