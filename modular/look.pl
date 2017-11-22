@@ -5,15 +5,14 @@ look :-                 % tanpa radar
     nl,
     printLookMap,
     notice_objects_at(X,Y),
-    notice_enemy_at(X,Y),
-    nl.
+    notice_enemy_at(X,Y).
 
 notice_objects_at(X,Y) :-
     at(Item, X,Y),
     write('There is a '), write(Item), write(' here.'), nl,
     fail.
 
-notice_objects_at(X,Y) :-
+notice_enemy_at(X,Y) :-
     alive(enemy,X,Y),
     write('There is an enemy here.'), nl,
     fail.
