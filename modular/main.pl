@@ -1,14 +1,16 @@
-:- dynamic(at/3, i_am_at/2, alive/3, player/3, playerInventory/1).
+:- dynamic(at/3, i_am_at/2, alive/3, player/3, playerInventory/1, playerWeapon/1).
 
 /*** IMPORTING OTHER FILES ***/
 :- include(attack).
 :- include(drop).
+:- include(enemy).
 :- include(inventory).
 :- include(look).
 :- include(map).
 :- include(move).
 :- include(saveload).
 :- include(start).
+:- include(status).
 :- include(take).
 :- include(use).
 
@@ -32,10 +34,12 @@ forestLoc([3,9],[13,12]).
    Initial stats:
         Health = 100
         Hunger = 100
-        Thrist = 100 */
+        Thrist = 100
+        Weapon = none */
 player(100,100,100).
+playerWeapon(none).
 
-
+/* SPECIAL ITEMS */
 at(radar,6,8).
 at(knife,3,3).
 at(spear,6,13).
@@ -95,52 +99,64 @@ alive(enemy,13,3).
 playerInventory([]).
 
 /** For printing LOOK's map and MAP **/
-printOneTile(X,Y) :-        % enemy E
+printOneTile(X,Y) :-    % enemy
     alive(enemy,X,Y),
     write('E'), !.
 
-printOneTile(X,Y) :-        % medicine M
+printOneTile(X,Y) :-    % medicine
     at(medicine,X,Y),
     write('M'), !.
 
-printOneTile(X,Y) :-        % food F
+printOneTile(X,Y) :-    % food
     at(food,X,Y),
     write('F'), !.
 
-printOneTile(X,Y) :-        % water W
+printOneTile(X,Y) :-    % water
     at(water,X,Y),
+    write('D'), !.
+
+printOneTile(X,Y) :-    % weapon
+    (at(knife,X,Y) ; at(spear,X,Y)),
     write('W'), !.
 
-printOneTile(X,Y) :-        % weapon #
-    (at(knife,X,Y) ; at(arrow,X,Y)),
-    write('#'), !.
-
-printOneTile(X,Y) :-        % player
+printOneTile(X,Y) :-    % player
     i_am_at(X,Y),
     write('P'), !.
 
-printOneTile(X,Y) :-	    % accessible
+printOneTile(X,Y) :-	%accessible
 	edge([XMin,XMax],[YMin,YMax]),
     X >=XMin, X=<XMax, Y>=YMin, Y=<YMax,
     write('-'), !.
 
-printOneTile(X,Y) :-		% inaccessible
-    write('#').
+printOneTile(X,Y) :-	%inaccessible
+    write('X').
 
 /** Describe for START and LOOK **/
 describe(X,Y) :-
     forestLoc([XStart,YStart],[XEnd,YEnd]),
     X>=XStart, X=<XEnd,
     Y>=YStart, Y=<YEnd, 
-    write('You \'re in the forest!'), nl, !.
+    write('You\'re in the highland.'), nl, !.
 
 describe(_,_) :-
-    write('You\'re on an open field!'), nl.
+    write('You\'re in the lowland.'), nl.
 
 /***** PLAYER'S ALIVE/DEATH STATE *****/
 /* check alive */
 playerchk :- player(Ht,Hg,Th),
-	Ht < 0,Hg < 0, Th < 0, !, die.
+	Ht =< 0, die, !.
+
+playerchk :- player(Ht,Hg,Th),
+	Hg =< 0, die, !.
+
+playerchk :- player(Ht,Hg,Th),
+	Th =< 0, die, !.
+	
+suicide :- player(Ht,Hg,Th),
+    Htnew is 1, Hgnew is 1, Thnew is 1,
+    retract(player(Ht,Hg,Th)),
+    asserta(player(Htnew,Hgnew,Thnew)),
+    playerchk.
 
 /* Game over */
 die :- 
@@ -148,15 +164,6 @@ die :-
 	write('took your last breath'),nl,
 	write('You Died - GAMEOVER'), nl, halt.
 
-/***** NOT SURE hehe *****/
+/***** When game over *****/
 finish :- 
-        \+alive(_,_,_), write('The game ends'), nl, halt.
-
-/***** ENEMY *****/
-randomEnemy :-
-    alive(enemy,X,Y),
-    random(-1,1,Dx),random(-1,1,Dy),
-    retract(alive(enemy,X,Y)),
-    Xnew is X + Dx, Ynew is Y + Dy,
-    asserta(alive(enemy,Xnew,Ynew)),
-    fail.
+    \+alive(_,_,_), write('The game ends'), nl, halt.
