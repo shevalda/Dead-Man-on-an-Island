@@ -6,6 +6,7 @@ save_game(FileName) :-		% contoh perintah: save_game('filename.pl')
     listing(alive),
     listing(player),
     listing(playerInventory),
+    listing(playerWeapon),
     told,
     write('Your gameplay has been saved to '), write(FileName), write('.').
 
