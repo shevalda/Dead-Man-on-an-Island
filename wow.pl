@@ -150,8 +150,20 @@ moved :- player(Ht,Hg,Th),
 
 /* check alive */
 playerchk :- player(Ht,Hg,Th),
-	Ht < 0,Hg < 0, Th < 0, die.
+	Ht =< 0, die, !.
 
+playerchk :- player(Ht,Hg,Th),
+	Hg =< 0, die, !.
+
+playerchk :- player(Ht,Hg,Th),
+	Th =< 0, die, !.
+	
+suicide :- player(Ht,Hg,Th),
+    Htnew is 1, Hgnew is 1, Thnew is 1,
+    retract(player(Ht,Hg,Th)),
+    asserta(player(Htnew,Hgnew,Thnew)),
+    playerchk.
+	
 die :- 
 	write('Your vision slowly fade while you'),nl,
 	write('took your last breath'),nl,
@@ -339,6 +351,7 @@ attack :-
     NewPts is Pts - 9, % dmgnya diganti konstanta aja
     asserta(player(NewPts,Hgr,Thr)),
     write('You took 21 damage and the enemy died'),nl,
+	playerchk,
     write('Your health is '), write(NewPts),nl,
     finish, !.
 
@@ -351,6 +364,7 @@ attack :-
     NewPts is Pts - 21, % dmgnya diganti konstanta aja
     asserta(player(NewPts,Hgr,Thr)),
     write('You took 21 damage and the enemy died'),nl,
+	playerchk,
     write('Your health is '), write(NewPts),nl,
     finish, !.
 
@@ -361,6 +375,7 @@ attack :-
     NewPts is Pts-21, %dmgnya diganti konstanta aja
     asserta(player(NewPts,Hgr,Thr)),
     write('You can''t attack and took 21 damage'),nl,
+	playerchk,
     write('Your health is '),write(NewPts), !.
 
 /***** INVENTORY *****/
@@ -485,6 +500,7 @@ enemyAttack :-
     NewPts is Pts-10, %dmgnya diganti konstanta aja
     asserta(player(NewPts,Hgr,Thr)),
     write('You were attacked and took 10 damage'),nl,
+	playerchk,
     write('Your health is '),write(NewPts), nl, !.		
 	
 /* Command SAVE */
