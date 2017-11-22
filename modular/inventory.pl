@@ -43,11 +43,11 @@ inventory :-
     printInven(L).
 
 printInven([]) :-
-    write('You have no item in your inventory.'), nl, !.
+    tab(3), write('You have no item in your inventory.'), nl, !.
 
 printInven([X]) :-
-    write(X), !.
+    tab(3), write(X), !.
 
 printInven([H|T]) :-
-    write(H), nl,
+    tab(3), write(H), nl,
     printInven(T).
