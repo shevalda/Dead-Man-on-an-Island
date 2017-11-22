@@ -1,0 +1,22 @@
+/*** ENEMY ***/
+randomEnemyMove :-
+    alive(enemy,X,Y),
+	edge([XMin,XMax],[YMin,YMax]),
+	randomize,
+    random(-1,1,Val),
+	random(0,1,Dir),			% 0 untuk gerak ke atas/bawah, 1 untuk gerak ke kanan/kiri
+    Xnew is X + Val*Dir, Ynew is Y + Val*abs((Dir-1)),
+	Xnew >= XMin, Xnew =< XMax, Ynew >= YMin, Ynew =< YMax,
+    retract(alive(enemy,X,Y)),
+    asserta(alive(enemy,Xnew,Ynew)),
+	i_am_at(Xnew,Ynew),
+	enemyAttack,
+    fail.
+	
+enemyAttack :-
+    retract(player(Pts,Hgr,Thr)),
+    NewPts is Pts-10, % dmgnya diganti konstanta aja
+    asserta(player(NewPts,Hgr,Thr)),
+    write('You were attacked and took 10 damage'),nl,
+	playerchk,
+    write('Your health is '), write(NewPts), nl, !.
