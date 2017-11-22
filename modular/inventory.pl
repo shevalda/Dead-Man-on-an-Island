@@ -49,5 +49,5 @@ printInven([X]) :-
     write(X), !.
 
 printInven([H|T]) :-
-    write(X), nl,
+    write(H), nl,
     printInven(T).
