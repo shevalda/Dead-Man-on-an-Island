@@ -1,8 +1,16 @@
 /*** DROP - Dropping an item ***/
-drop(Item) :-
+drop(Item) :-           %droping a weapon
+    weapon(Item),
+    retract(playerWeapon(Item)),
+    asserta(playerWeapon(none)),
+    i_am_at(X,Y),
+    asserta(at(knife,X,Y)),
+    format('You dropped ~a.', [Item]),
+    nl, !.
+
+drop(Item) :-           %droping item from inventory
     playerInventory(Inven),
-    searchInven(Item, Inven, Bool),
-    Bool = yes,
+    searchInven(Item, Inven, yes),
     i_am_at(X,Y),
     delInven(Item),
     asserta(at(Item,X,Y)),
