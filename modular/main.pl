@@ -60,8 +60,8 @@ at(popmie,13,4).
 at(nasgor,10,9).
 
 /*dirty water -health +thirst*/
-at(coca_cola,5,4).
-at(coca_cola,10,3).
+at(sprite,5,4).
+at(sprite,10,3).
 
 /*clean water +thirst*/
 at(water,11,6).
@@ -69,10 +69,15 @@ at(water,11,11).
 at(water,5,9).
 at(water,3,11).
 
+/* medicine */
+at(panadol,3,8).
+at(betadine,7,4).
+at(diapet,9,4).
+
 expired(sarden).
 expired(kornet).
 expired(yogurt).
-expired(coca_cola).
+expired(sprite).
 
 food(nasgor).
 food(popmie).
@@ -82,6 +87,10 @@ food(yogurt).
 
 drink(water).
 drink(coca_cola).
+
+medicine(panadol).
+medicine(betadine).
+medicine(diapet).
 
 weapon(spear).
 weapon(knife).
@@ -107,15 +116,18 @@ printOneTile(X,Y) :-    % enemy
     write('E'), !.
 
 printOneTile(X,Y) :-    % medicine
-    at(medicine,X,Y),
+    at(Item,X,Y),
+    medicine(Item),
     write('M'), !.
 
 printOneTile(X,Y) :-    % food
-    at(food,X,Y),
+    at(Item,X,Y),
+    food(Item),
     write('F'), !.
 
 printOneTile(X,Y) :-    % water
-    at(water,X,Y),
+    at(Item,X,Y),
+    drink(Item),
     write('D'), !.
 
 printOneTile(X,Y) :-    % weapon
@@ -178,12 +190,10 @@ playerchk :- player(Ht,Hg,Th),
 
 playerchk :- player(Ht,Hg,Th),
 	Th =< 0, die, !.
-	
-suicide :- player(Ht,Hg,Th),
-    Htnew is 1, Hgnew is 1, Thnew is 1,
-    retract(player(Ht,Hg,Th)),
-    asserta(player(Htnew,Hgnew,Thnew)),
-    playerchk.
+
+playerchk :-
+    \+ alive(enemy,_,_,_),
+    win, !.
 
 /* Game over */
 die :- 
@@ -195,7 +205,6 @@ die :-
 
 /***** Player wins *****/
 win :- 
-    \+ alive(enemy,X,Y,Item),
     write('You have finally gather the parts for the raft.'), nl,
     write('The thought of finally coming home makes you smile.'),
     nl,nl,

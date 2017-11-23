@@ -40,7 +40,7 @@ help :-
 		write(' use(object).                : to use an item in inventory'),nl,
 		write(' attack.                     : to attack  an enemy in same square'),nl,
 		write(' status.                     : to show the player status(health, hunger, thirst, weapon)'),nl,
-		write(' save_game(''filename.pl''). : to save a game'),nl,
+		write(' save_game(''filename.pl'').   : to save a game'),nl,
 		write(' load_game(filename).        : to load saved game'),
 		nl,nl,
 		write('Legends:'), nl,

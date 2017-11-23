@@ -3,6 +3,34 @@ use(Item) :-
     checkStart(0),
     write('You have not started the game.'), !.
 
+/* MEDICINE */
+use(Item) :-
+    medicine(Item),
+    playerInventory(L),
+    searchInven(Item,L,yes),
+    player(Pts,Hgr,Thr),
+    NewPts is Pts+20,
+    NewPts > 100,
+    R is NewPts mod 100,
+    delInven(Item),
+    NewPts2 is NewPts - R,
+    retract(player(Pts,Hgr,Thr)),
+    asserta(player(NewPts2,Hgr,Thr)),
+    write('You used '), write(Item), nl,
+    write('you feel healthy'),nl,!.
+
+use(Item) :-
+    medicine(Item),
+    playerInventory(L),
+    searchInven(Item,L,yes),
+    player(Pts,Hgr,Thr),
+    NewPts is Pts+20,
+    delInven(Item),
+    retract(player(Pts,Hgr,Thr)),
+    asserta(player(NewPts,Hgr,Thr)),
+    write('You used '), write(Item), nl,
+    write('you feel healthy'),nl,!.
+
 /* EXPIRED FOOD */
 use(Item) :-
     food(Item), expired(Item),
@@ -172,6 +200,12 @@ use(Item) :-
     asserta(player(NewPts,Hgr,NewThr)),
     write('You drank '),write(Item),nl,
     write('you feel satisfied'),nl,!.
+
+/* ITEMS FROM ENEMY */
+use(Item) :-
+    playerInventory(L),
+    searchInven(Item,L,yes),
+    write(Item), write(' cannot be used. But it might be useful in the future'),!.
 
 /* NO ITEM TO BE USED */
 use(Item) :-
