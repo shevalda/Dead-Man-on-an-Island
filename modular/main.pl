@@ -186,3 +186,13 @@ die :-
 /***** When game over *****/
 finish :- 
     \+alive(_,_,_), write('The game ends'), nl, halt.
+
+/***** Player wins *****/
+win :- 
+    \+ alive(enemy,X,Y),
+    write('You have finally gather the parts for building a raft.'), nl,
+    write('The thought of finally coming home makes you smile.'),
+    nl,nl,
+    write('After two days of endless struggle to build the raft, it is finally done.'), nl,
+    write('You hop to raft and looked one more to time to the island you might never see again.'), nl,
+    write('THE END').
