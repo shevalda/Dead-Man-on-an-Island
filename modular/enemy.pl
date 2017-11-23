@@ -1,13 +1,13 @@
 /*** ENEMY ***/
 randomEnemyMove :-
-    alive(enemy,X,Y),
+    alive(enemy,X,Y,RaftItem),
 	edge([XMin,XMax],[YMin,YMax]),
     random(-1,1,Val),
 	random(0,1,Dir),			% 0 untuk gerak ke atas/bawah, 1 untuk gerak ke kanan/kiri
     Xnew is X + Val*Dir, Ynew is Y + Val*abs((Dir-1)),
 	Xnew >= XMin, Xnew =< XMax, Ynew >= YMin, Ynew =< YMax,
-    retract(alive(enemy,X,Y)),
-    asserta(alive(enemy,Xnew,Ynew)),
+    retract(alive(enemy,X,Y,RaftItem)),
+    asserta(alive(enemy,Xnew,Ynew,RaftItem)),
 	i_am_at(Xnew,Ynew),
 	enemyAttack,
     fail.
