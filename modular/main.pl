@@ -181,12 +181,8 @@ suicide :- player(Ht,Hg,Th),
 die :- 
 	write('Your vision slowly fade while you'),nl,
 	write('took your last breath'),nl,
-	write('You Died - GAMEOVER'), nl, halt.
-
-/***** When game over *****/
-finish :- 
-    \+alive(_,_,_), write('GAME OVER!'), nl, halt.
-
+	write('You Died - GAME OVER'), nl, halt.
+    
 /***** Player wins *****/
 win :- 
     \+ alive(enemy,X,Y,Item),
