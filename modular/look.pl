@@ -13,7 +13,7 @@ notice_objects_at(X,Y) :-
     fail.
 
 notice_enemy_at(X,Y) :-
-    alive(enemy,X,Y),
+    alive(enemy,X,Y,RaftItem),
     write('There is an enemy here.'), nl,
     fail.
 
