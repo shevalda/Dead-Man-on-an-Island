@@ -21,7 +21,7 @@ take(Item) :-					% item able to take
     at(Item,X,Y),
     retract(at(Item,X,Y)),
     addInven(Item),
-    format('You took ~a.', [Item]), nl, !
+    format('You took ~a.', [Item]), nl, !.
 
 take(Item) :-					% item unable to take
     playerInventory(Inven),
