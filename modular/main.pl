@@ -145,20 +145,20 @@ descmov(X,Y) :-
     forestLoc([XStart,YStart],[XEnd,YEnd]),
     X>=XStart, X=<XEnd,
     Y>=YStart, Y=<YEnd, 
-    write('highland.'), nl, !.
+    write('highland'), !.
 
 descmov(_,_) :-
-write('lowland.'), nl.
+write('lowland').
 
-movdesc(X,Y) :-
+movedesc(X,Y) :-
     Yn is Y+1,
     Ym is Y-1,
     Xn is X+1,
     Xm is X-1,
-    write('To the north is a '),descmov(X,Yn), nl,
-    write(', to the east is a '),descmov(Xn,Y), nl,
-    write(', to the south is a '),descmov(X,Ym), nl,
-    write(', to the west is a '),descmov(Xm,Y), nl.
+    write('To the north is a '),descmov(X,Yn),
+    write(', to the east is a '),descmov(Xn,Y),
+    write(', to the south is a '),descmov(X,Ym),
+    write(', to the west is a '),descmov(Xm,Y), write('.').
 
 /***** PLAYER'S ALIVE/DEATH STATE *****/
 /* check alive */
