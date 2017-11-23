@@ -3,49 +3,53 @@
 n :- i_am_at(X,Y),
 	edge(_,[_,YMax]),
 	Y =:= YMax,
-    write('You cannot go there!'), nl, !.
+	write('You see a vast sea..'), nl,
+   	write('You cannot go there!'), nl, !.
 
 n :- i_am_at(X,Y),
     retract(i_am_at(X,Y)),
     Ynew is Y + 1,
     asserta(i_am_at(X,Ynew)),
-    \+moved, look, !.
+    \+moved, movedesc(X,Ynew), !.
 
 /* Moving to south */
 s :- i_am_at(X,Y),
 	edge(_,[YMin,_]),
 	Y =:= YMin,
-    write('You cannot go there!'), nl, !.
+	write('You see a vast sea..'), nl,
+    	write('You cannot go there!'), nl, !.
 
 s :- i_am_at(X,Y),
     retract(i_am_at(X,Y)),
     Ynew is Y - 1,
     asserta(i_am_at(X,Ynew)),
-    \+moved, look, !.
+    \+moved, movedesc(X,Ynew), !.
 
 /* Moving to east */
 e :- i_am_at(X,Y),
 	edge([_,XMax],_),
 	X =:= XMax,
-    write('You cannot go there!'), nl, !.
+	write('You see a vast sea..'), nl,
+    	write('You cannot go there!'), nl, !.
 
 e :- i_am_at(X,Y),
     retract(i_am_at(X,Y)),
     Xnew is X + 1,
     asserta(i_am_at(Xnew,Y)),
-    \+moved, look, !.
+    \+moved, movedesc(Xnew,Y), !.
 
 /* Moving to west */
 w :- i_am_at(X,Y),
 	edge([XMin,_],_),
 	X =:= XMin,
-    write('You cannot go there!'), nl, !.
+	write('You see a vast sea..'), nl,
+    	write('You cannot go there!'), nl, !.
 
 w :- i_am_at(X,Y),
     retract(i_am_at(X,Y)),
     Xnew is X - 1,
     asserta(i_am_at(Xnew,Y)),
-    \+moved, look, !.
+    \+moved, movedesc(Xnew,Y), !.
 	
 /* Changing the player's stats with changing position */
 moved :- player(Ht,Hg,Th),
