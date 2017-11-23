@@ -4,7 +4,8 @@ start :-
     instructions,nl,
     help,nl,nl,
 	i_am_at(X,Y),
-	describe(X,Y).
+	describe(X,Y),
+	movedesc(X,Y).
 
 instructions:- 
 				write(' __                       _       _                                 _'),nl,
