@@ -1,4 +1,8 @@
 /*** LOOK - Looking at nearby enviornment  ***/
+notice(X,Y) :-
+    notice_objects_at(X,Y),
+    notice_enemy_at(X,Y).
+
 look :-                 % tanpa radar
     i_am_at(X,Y),
     describe(X,Y),
@@ -12,12 +16,14 @@ notice_objects_at(X,Y) :-
     write('There is a '), write(Item), write(' here.'), nl,
     fail.
 
+notice_objects_at(_,_).
+
 notice_enemy_at(X,Y) :-
     alive(enemy,X,Y),
     write('There is an enemy here.'), nl,
     fail.
 
-notice_objects_at(_).
+notice_enemy_at(_,_).
 
 printLookMap :-
     i_am_at(X,Y),

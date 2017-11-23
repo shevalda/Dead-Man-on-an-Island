@@ -2,7 +2,7 @@
 attack :-
 	i_am_at(X,Y),
     alive(enemy,X,Y),
-    playerWeapon(spear),
+    at(spear,in,hand),
     retract(alive(enemy,X,Y)),
     retract(player(Pts,Hgr,Thr)),
     NewPts is Pts - 9,              % damage yang kena ketika pakai spear = 9
@@ -10,12 +10,12 @@ attack :-
     write('You took 21 damage and the enemy died'),nl,
     playerchk,
     write('Your health is '), write(NewPts),nl,
-    finish, !.
+    finish.
 
 attack :-
     i_am_at(X,Y),
     alive(enemy,X,Y),
-    playerWeapon(knife),
+    at(knife,in,hand),
     retract(alive(enemy,X,Y)),
     retract(player(Pts,Hgr,Thr)),
     NewPts is Pts - 21,             % damage yang diterima ketika pakai knife = 21
@@ -23,18 +23,17 @@ attack :-
     write('You took 21 damage and the enemy died'),nl,
     playerchk,
     write('Your health is '), write(NewPts), nl,
-    finish, !.
+    finish.
 
 attack :-
     i_am_at(X,Y),
     alive(enemy,X,Y),
-    playerWeapon(none),
     retract(player(Pts,Hgr,Thr)),
     NewPts is Pts-21,               % damage yang diterima ketika tidak memegang weapon = 21
     asserta(player(NewPts,Hgr,Thr)),
     write('You can''t attack and took 21 damage'), nl,
     playerchk,
-    write('Your health is '), write(NewPts), !.
+    write('Your health is '), write(NewPts).
 
 attack :-
     write('There is nothing to attack'), nl.

@@ -13,8 +13,7 @@ take(Item) :-					% weapon able to take
 	playerWeapon(none),
     retract(at(Item,X,Y)),
     retract(playerWeapon(none)),
-    asserta(playerWeapon(Item)),
-    format('You took ~a.', [Item]), nl, !.
+    asserta(playerWeapon(Item)),nl, !.
 
 take(Item) :-					% item able to take
     i_am_at(X,Y),
