@@ -8,16 +8,6 @@ take(Item) :- 					% weapon unable to take
 
 take(Item) :-					% weapon able to take
 	i_am_at(X,Y),
-    at(Item,/*** TAKE - Taking an item ***/
-take(Item) :- 					% weapon unable to take
-	i_am_at(X,Y),
-    at(Item,X,Y),
-    weapon(Item),
-    \+ playerWeapon(none),
-    write('You cannot hold 2 weapon at once!'),nl,!.
-
-take(Item) :-					% weapon able to take
-	i_am_at(X,Y),
     at(Item,X,Y),
     weapon(Item),
 	playerWeapon(none),
