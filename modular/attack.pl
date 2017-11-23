@@ -1,4 +1,8 @@
 /*** ATTACK - Attacking an enemy ***/
+attack :- 
+    checkStart(0),
+    write('You have not started the game.'), !.
+
 attack :-
 	i_am_at(X,Y),
     alive(enemy,X,Y,RaftItem),

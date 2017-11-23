@@ -1,5 +1,9 @@
 /*** MAP - Printing map with radar ***/	
 map :-
+	checkStart(0),
+    write('You have not started the game.'), !.
+
+map :-
 	playerInventory(L),
 	searchInven('radar', L, yes),
 	edgeOffset([XMin,_],[_,YMax]),

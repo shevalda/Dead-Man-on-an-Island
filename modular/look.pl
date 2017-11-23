@@ -1,4 +1,8 @@
 /*** LOOK - Looking at nearby enviornment  ***/
+look :-
+    checkStart(0),
+    write('You have not started the game.'), !.
+
 look :-                 % tanpa radar
     i_am_at(X,Y),
     describe(X,Y),
@@ -8,7 +12,7 @@ look :-                 % tanpa radar
     notice_enemy_at(X,Y).
 
 notice_objects_at(X,Y) :-
-    at(Item, X,Y),
+    at(Item,X,Y),
     write('There is a '), write(Item), write(' here.'), nl,
     fail.
 

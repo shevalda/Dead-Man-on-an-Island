@@ -1,4 +1,8 @@
 /*** TAKE - Taking an item ***/
+take(Item) :-
+    checkStart(0),
+    write('You have not started the game.'), !.
+
 take(Item) :- 					% weapon unable to take
 	i_am_at(X,Y),
     at(Item,X,Y),

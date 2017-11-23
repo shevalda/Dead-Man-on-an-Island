@@ -1,4 +1,8 @@
 /*** DROP - Dropping an item ***/
+drop(Item) :-
+    checkStart(0),
+    write('You have not started the game.'), !.
+
 drop(Item) :-           %droping a weapon
     weapon(Item),
     retract(playerWeapon(Item)),

@@ -1,4 +1,4 @@
-:- dynamic(at/3, i_am_at/2, alive/4, player/3, playerInventory/1, playerWeapon/1).
+:- dynamic(at/3, i_am_at/2, alive/4, player/3, playerInventory/1, playerWeapon/1, checkStart/1).
 
 /*** IMPORTING OTHER FILES ***/
 :- include(attack).
@@ -13,6 +13,9 @@
 :- include(status).
 :- include(take).
 :- include(use).
+
+/* Check the game has started or not */
+checkStart(0).
 
 /* player's current position
    initial position : (3,4) */
@@ -186,7 +189,9 @@ suicide :- player(Ht,Hg,Th),
 die :- 
 	write('Your vision slowly fade while you'),nl,
 	write('took your last breath'),nl,
-	write('You Died - GAME OVER'), nl, halt.
+	write('You Died - GAME OVER'), nl,
+    retract(checkStart(1)),
+    asserta(checkStart(0)).
 
 /***** Player wins *****/
 win :- 
@@ -196,4 +201,16 @@ win :-
     nl,nl,
     write('After two days of endless struggle to build the raft, it is finally done.'), nl,
     write('You hop to raft and looked one more to time to the island you might never see again.'), nl,
-    write('THE END').
+    write('THE END'),
+    retract(checkStart(1)),
+    asserta(checkStart(0)).
+
+/* QUIT */
+quit :-
+    checkStart(1),
+    retract(checkStart(1)),
+    asserta(checkStart(0)),
+    write('You have quitted the game.'), !.
+
+quit :-
+    write('You have not started the game.').

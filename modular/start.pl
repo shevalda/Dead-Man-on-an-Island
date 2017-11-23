@@ -1,6 +1,12 @@
 /*** START - Initializing game ***/
+start :-
+	checkStart(1),
+	write('You have started the game. Quit to restart the game.'), !.
 
 start :-
+	checkStart(0),
+    retract(checkStart(0)),
+    asserta(checkStart(1)),
     instructions,nl,
     help,nl,nl,
 	i_am_at(X,Y),

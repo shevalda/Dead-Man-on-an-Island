@@ -1,5 +1,9 @@
 /***** PLAYER'S MOVE *****/
 /* Moving to north */
+n :-
+    checkStart(0),
+    write('You have not started the game.'), !.
+
 n :- i_am_at(X,Y),
 	edge(_,[_,YMax]),
 	Y =:= YMax,
@@ -14,6 +18,10 @@ n :- i_am_at(X,Y),
     movedesc(X,Ynew), !.
 
 /* Moving to south */
+s :-
+    checkStart(0),
+    write('You have not started the game.'), !.
+
 s :- i_am_at(X,Y),
 	edge(_,[YMin,_]),
 	Y =:= YMin,
@@ -27,6 +35,10 @@ s :- i_am_at(X,Y),
     \+moved, movedesc(X,Ynew), !.
 
 /* Moving to east */
+e :-
+    checkStart(0),
+    write('You have not started the game.'), !.
+
 e :- i_am_at(X,Y),
 	edge([_,XMax],_),
 	X =:= XMax,
@@ -40,6 +52,10 @@ e :- i_am_at(X,Y),
     \+moved, movedesc(Xnew,Y), !.
 
 /* Moving to west */
+w :-
+    checkStart(0),
+    write('You have not started the game.'), !.
+
 w :- i_am_at(X,Y),
 	edge([XMin,_],_),
 	X =:= XMin,

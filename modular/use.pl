@@ -1,4 +1,8 @@
 /*** USE - Using an item ***/
+use(Item) :-
+    checkStart(0),
+    write('You have not started the game.'), !.
+
 /* EXPIRED FOOD */
 use(Item) :-
     food(Item), expired(Item),

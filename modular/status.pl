@@ -1,4 +1,7 @@
 /*** PLAYER'S STATS ***/
+status :-
+    checkStart(0),
+    write('You have not started the game.'), !.
 
 status :-
 	player(Ht,Hg,Th),
