@@ -136,29 +136,34 @@ describe(X,Y) :-
     forestLoc([XStart,YStart],[XEnd,YEnd]),
     X>=XStart, X=<XEnd,
     Y>=YStart, Y=<YEnd, 
-    write('You\'re in the highland.'), nl, !.
+    write('You\'re in the highland.'), !.
 
-describe(_,_) :-
-    write('You\'re in the lowland.'), nl.
+describe(X,Y) :-
+    write('You\'re in the lowland.').
     
 descmov(X,Y) :-
     forestLoc([XStart,YStart],[XEnd,YEnd]),
     X>=XStart, X=<XEnd,
     Y>=YStart, Y=<YEnd, 
-    write('highland'), !.
+    write('a highland area'), !.
+
+descmov(X,Y) :-
+    X >= 1, X =< 14,
+    Y >= 1, Y =< 15,
+    write('a lowland area'), !.
 
 descmov(_,_) :-
-write('lowland').
+    write('the sea').
 
 movedesc(X,Y) :-
     Yn is Y+1,
     Ym is Y-1,
     Xn is X+1,
     Xm is X-1,
-    write('To the north is a '),descmov(X,Yn),
-    write(', to the east is a '),descmov(Xn,Y),
-    write(', to the south is a '),descmov(X,Ym),
-    write(', to the west is a '),descmov(Xm,Y), write('.').
+    write('To the north is '),descmov(X,Yn),
+    write(', to the east is '),descmov(Xn,Y),
+    write(', to the south is '),descmov(X,Ym),
+    write(', to the west is '),descmov(Xm,Y), write('.').
 
 /***** PLAYER'S ALIVE/DEATH STATE *****/
 /* check alive */
@@ -182,7 +187,7 @@ die :-
 	write('Your vision slowly fade while you'),nl,
 	write('took your last breath'),nl,
 	write('You Died - GAME OVER'), nl, halt.
-    
+
 /***** Player wins *****/
 win :- 
     \+ alive(enemy,X,Y,Item),

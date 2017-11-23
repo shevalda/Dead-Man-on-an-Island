@@ -10,7 +10,8 @@ n :- i_am_at(X,Y),
     retract(i_am_at(X,Y)),
     Ynew is Y + 1,
     asserta(i_am_at(X,Ynew)),
-    \+moved, movedesc(X,Ynew), !.
+    \+moved, describe(X,Ynew), tab(1),
+    movedesc(X,Ynew), !.
 
 /* Moving to south */
 s :- i_am_at(X,Y),

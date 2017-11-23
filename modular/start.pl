@@ -4,7 +4,7 @@ start :-
     instructions,nl,
     help,nl,nl,
 	i_am_at(X,Y),
-	describe(X,Y),
+	describe(X,Y), tab(1),
 	movedesc(X,Y).
 
 instructions:- 
@@ -38,11 +38,11 @@ help :-
 		write(' load_game(filename).        : to load saved game'),
 		nl,nl,
 		write('Legends:'), nl,
-        write('Player       : P'), nl,
-		write('Enemy        : E'), nl,
-        write('Medicine     : M'), nl,
-        write('Food         : F'), nl,
-        write('Water        : D'), nl,
-        write('Weapon       : W'), nl,
-        write('Accessible   : -'), nl,
-        write('Inaccessible : X').
+        write('Player   : P'), nl,
+		write('Enemy    : E'), nl,
+        write('Medicine : M'), nl,
+        write('Food     : F'), nl,
+        write('Water    : D'), nl,
+        write('Weapon   : W'), nl,
+        write('Land     : -'), nl,
+        write('Sea      : X').
