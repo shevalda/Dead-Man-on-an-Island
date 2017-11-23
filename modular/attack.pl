@@ -10,7 +10,7 @@ attack :-
     write('You took 9 damage and the enemy died'),nl,
     addInven(RaftItem),
     write('You obtained '), write(RaftItem), nl,
-    playerchk,
+    !, playerchk,
     write('Your health is '), write(NewPts),nl,
     finish, !.
 
@@ -25,7 +25,7 @@ attack :-
     write('You took 21 damage and the enemy died'),nl,
     addInven(RaftItem),
     write('You obtained '), write(RaftItem), nl,
-    playerchk,
+    !, playerchk,
     write('Your health is '), write(NewPts), nl,
     finish, !.
 
@@ -37,7 +37,7 @@ attack :-
     NewPts is Pts-21,               % damage yang diterima ketika tidak memegang weapon = 21
     asserta(player(NewPts,Hgr,Thr)),
     write('You can''t attack and took 21 damage'), nl,
-    playerchk,
+    !, playerchk,
     write('Your health is '), write(NewPts), !.
 
 attack :-
