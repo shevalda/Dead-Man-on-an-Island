@@ -150,6 +150,16 @@ descmov(X,Y) :-
 descmov(_,_) :-
 write('lowland.'), nl.
 
+movdesc(X,Y) :-
+    Yn is Y+1,
+    Ym is Y-1,
+    Xn is X+1,
+    Xm is X-1,
+    write('To the north is a '),descmov(X,Yn), nl,
+    write(', to the east is a '),descmov(Xn,Y), nl,
+    write(', to the south is a '),descmov(X,Ym), nl,
+    write(', to the west is a '),descmov(Xm,Y), nl.
+
 /***** PLAYER'S ALIVE/DEATH STATE *****/
 /* check alive */
 playerchk :- player(Ht,Hg,Th),
