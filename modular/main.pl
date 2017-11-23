@@ -1,4 +1,4 @@
-:- dynamic(at/3, i_am_at/2, alive/3, player/3, playerInventory/1, playerWeapon/1).
+:- dynamic(at/3, i_am_at/2, alive/4, player/3, playerInventory/1, playerWeapon/1).
 
 /*** IMPORTING OTHER FILES ***/
 :- include(attack).
@@ -83,24 +83,24 @@ drink(coca_cola).
 weapon(spear).
 weapon(knife).
 
-alive(enemy,3,13).
-alive(enemy,5,11).
-alive(enemy,8,12).
-alive(enemy,13,9).
-alive(enemy,3,8).
-alive(enemy,10,7).
-alive(enemy,12,7).
-alive(enemy,12,6).
-alive(enemy,7,4).
-alive(enemy,9,4).
-alive(enemy,13,3).
+alive(enemy,3,13,'chopped wood').
+alive(enemy,5,11, 'rope').
+alive(enemy,8,12, 'compass').
+alive(enemy,13,9, 'used paddle').
+alive(enemy,3,8, 'first aid kit').
+alive(enemy,10,7, 'torch light').
+alive(enemy,12,7, 'whistle').
+alive(enemy,12,6, 'flares').
+alive(enemy,7,4, 'suncream').
+alive(enemy,9,4, 'bagpack').
+alive(enemy,13,3, 'extra clothes').
 
 /* Player's list of inventory */
 playerInventory([]).
 
 /** For printing LOOK's map and MAP **/
 printOneTile(X,Y) :-    % enemy
-    alive(enemy,X,Y),
+    alive(enemy,X,Y,RaftItem),
     write('E'), !.
 
 printOneTile(X,Y) :-    % medicine
@@ -185,12 +185,12 @@ die :-
 
 /***** When game over *****/
 finish :- 
-    \+alive(_,_,_), write('The game ends'), nl, halt.
+    \+alive(_,_,_), write('GAME OVER!'), nl, halt.
 
 /***** Player wins *****/
 win :- 
-    \+ alive(enemy,X,Y),
-    write('You have finally gather the parts for building a raft.'), nl,
+    \+ alive(enemy,X,Y,Item),
+    write('You have finally gather the parts for the raft.'), nl,
     write('The thought of finally coming home makes you smile.'),
     nl,nl,
     write('After two days of endless struggle to build the raft, it is finally done.'), nl,
