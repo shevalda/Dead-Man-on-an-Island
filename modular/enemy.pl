@@ -2,7 +2,6 @@
 randomEnemyMove :-
     alive(enemy,X,Y),
 	edge([XMin,XMax],[YMin,YMax]),
-	randomize,
     random(-1,1,Val),
 	random(0,1,Dir),			% 0 untuk gerak ke atas/bawah, 1 untuk gerak ke kanan/kiri
     Xnew is X + Val*Dir, Ynew is Y + Val*abs((Dir-1)),
