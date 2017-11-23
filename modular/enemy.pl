@@ -16,6 +16,6 @@ enemyAttack :-
     retract(player(Pts,Hgr,Thr)),
     NewPts is Pts-10, % dmgnya diganti konstanta aja
     asserta(player(NewPts,Hgr,Thr)),
+    write('There is an enemy here. '),
     write('You were attacked and took 10 damage'),nl,
-	playerchk,
-    write('Your health is '), write(NewPts), nl, !.
+	playerchk, !.
