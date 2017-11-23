@@ -140,6 +140,15 @@ describe(X,Y) :-
 
 describe(_,_) :-
     write('You\'re in the lowland.'), nl.
+    
+descmov(X,Y) :-
+    forestLoc([XStart,YStart],[XEnd,YEnd]),
+    X>=XStart, X=<XEnd,
+    Y>=YStart, Y=<YEnd, 
+    write('highland.'), nl, !.
+
+descmov(_,_) :-
+write('lowland.'), nl.
 
 /***** PLAYER'S ALIVE/DEATH STATE *****/
 /* check alive */
