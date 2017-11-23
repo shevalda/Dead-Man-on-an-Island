@@ -205,11 +205,12 @@ die :-
 
 /***** Player wins *****/
 win :- 
-    write('You have finally gather the parts for the raft.'), nl,
+    nl,
+    write('You have finally gather the last part for the raft.'), nl,
     write('The thought of finally coming home makes you smile.'),
     nl,nl,
     write('After two days of endless struggle to build the raft, it is finally done.'), nl,
-    write('You hop to raft and looked one more to time to the island you might never see again.'), nl,
+    write('You hop to raft and looked one more to time to the island you might never see again.'), nl, nl,
     write('THE END'),
     retract(checkStart(1)),
     asserta(checkStart(0)).
