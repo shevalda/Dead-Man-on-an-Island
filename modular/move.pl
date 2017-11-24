@@ -15,7 +15,9 @@ n :- i_am_at(X,Y),
     Ynew is Y + 1,
     asserta(i_am_at(X,Ynew)),
     \+moved, describe(X,Ynew), tab(1),
-    movedesc(X,Ynew), !.
+    movedesc(X,Ynew), nl, nl,
+	notice_objects_at(X,Ynew),
+    notice_enemy_at(X,Ynew), !.
 
 /* Moving to south */
 s :-
@@ -32,7 +34,10 @@ s :- i_am_at(X,Y),
     retract(i_am_at(X,Y)),
     Ynew is Y - 1,
     asserta(i_am_at(X,Ynew)),
-    \+moved, movedesc(X,Ynew), !.
+    \+moved, describe(X,Ynew), tab(1),
+    movedesc(X,Ynew), nl, nl,
+	notice_objects_at(X,Ynew),
+    notice_enemy_at(X,Ynew), !.
 
 /* Moving to east */
 e :-
@@ -49,7 +54,10 @@ e :- i_am_at(X,Y),
     retract(i_am_at(X,Y)),
     Xnew is X + 1,
     asserta(i_am_at(Xnew,Y)),
-    \+moved, movedesc(Xnew,Y), !.
+    \+moved, describe(X,Ynew), tab(1),
+    movedesc(X,Ynew), nl, nl,
+	notice_objects_at(Xnew,Y),
+    notice_enemy_at(Xnew,Y), !.
 
 /* Moving to west */
 w :-
@@ -66,7 +74,10 @@ w :- i_am_at(X,Y),
     retract(i_am_at(X,Y)),
     Xnew is X - 1,
     asserta(i_am_at(Xnew,Y)),
-    \+moved, movedesc(Xnew,Y), !.
+    \+moved, describe(X,Ynew), tab(1),
+    movedesc(X,Ynew), nl, nl,
+	notice_objects_at(Xnew,Y),
+    notice_enemy_at(Xnew,Y), !.
 	
 /* Changing the player's stats with changing position */
 moved :- player(Ht,Hg,Th),
