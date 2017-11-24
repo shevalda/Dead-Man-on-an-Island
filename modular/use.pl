@@ -190,7 +190,7 @@ use(Item) :-
     write('you feel satisfied'),nl,!.
 
 use(Item) :-
-    food(Item),
+    drink(Item),
     playerInventory(L),
     searchInven(Item,L,yes),
     player(Pts,Hgr,Thr),
