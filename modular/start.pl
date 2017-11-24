@@ -26,9 +26,10 @@ start :-
     retract(checkStart(0)),
     asserta(checkStart(1)),
     instructions,nl,
-    help,nl,
+    help,nl,nl,
     desc,nl,
 	repeat,
+	write(' > '),
 	read(Z),
 	user_in(Z),
 	nl,Z = quit.

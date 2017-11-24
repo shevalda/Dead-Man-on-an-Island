@@ -20,10 +20,5 @@ load_game(_) :-
     write('The game has started. Quit first to load previous game.').
 
 load_game(FileName) :-		% contoh perintah: load_game(filename)
-    % retract semua fakta
-    retractall(at(_, _, _)),
-    retractall(i_am_at(_,_)),
-    retract(player(_,_,_)),
-    retractall(alive(_,_,_,_)),
     [FileName], nl,
     write('Your gameplay from '), write(FileName), write('.pl has been loaded.').

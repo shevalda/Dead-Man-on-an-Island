@@ -10,7 +10,7 @@ drop(Item) :-           %droping a weapon
     i_am_at(X,Y),
     asserta(at(knife,X,Y)),
     format('You dropped ~a.', [Item]),
-    nl, !.
+    nl, \+ randomEnemyMove, !.
 
 drop(Item) :-           %droping item from inventory
     playerInventory(Inven),
@@ -19,8 +19,8 @@ drop(Item) :-           %droping item from inventory
     delInven(Item),
     asserta(at(Item,X,Y)),
     format('You dropped ~a.', [Item]),
-    nl, !.
+    nl, \+ randomEnemyMove, !.
 
 drop(_) :-
     write('You don\'t have it!'),
-    nl.
+    nl, \+ randomEnemyMove.

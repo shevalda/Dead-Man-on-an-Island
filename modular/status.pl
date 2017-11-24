@@ -10,4 +10,4 @@ status :-
 	write('Thirst : '), write(Th), nl,
 	write('Weapon : '), playerWeapon(Weapon), write(Weapon), nl,
 	write('Inventory:'), nl,
-	inventory, !.
+	inventory,nl, !.

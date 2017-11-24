@@ -14,7 +14,8 @@
 :- include(take).
 :- include(use).
 
-:- write('Write "start." to start the game!'),nl,nl.
+:- initialization(nl).
+:- initialization(write('Write "start." to start the game!')).
 
 /* Check the game has started or not */
 checkStart(0).
@@ -157,10 +158,10 @@ describe(X,Y) :-
     forestLoc([XStart,YStart],[XEnd,YEnd]),
     X>=XStart, X=<XEnd,
     Y>=YStart, Y=<YEnd, 
-    write('You\'re in the highland.'), !.
+    write('You\'re in the highland area.'), !.
 
 describe(_,_) :-
-    write('You\'re in the lowland.').
+    write('You\'re in the lowland area.').
     
 descmov(X,Y) :-
     forestLoc([XStart,YStart],[XEnd,YEnd]),
@@ -237,11 +238,7 @@ quit :-
     checkStart(1),
     retract(checkStart(1)),
     asserta(checkStart(0)),
-    write('You have quitted the game.'),
-    retractall(at(_, _, _)),
-    retractall(i_am_at(_,_)),
-    retract(player(_,_,_)),
-    retractall(alive(_,_,_,_)),
+    write('You have quitted the game.'),nl,nl,
     [default], !.
 
 quit :-

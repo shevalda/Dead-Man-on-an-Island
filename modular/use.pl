@@ -17,7 +17,8 @@ use(Item) :-
     retract(player(Pts,Hgr,Thr)),
     asserta(player(NewPts2,Hgr,Thr)),
     write('You used '), write(Item),  write('.'),nl,
-    write('You feel healthy'),nl,!.
+    write('You feel healthy'),nl,
+    \+ randomEnemyMove,!.
 
 use(Item) :-
     medicine(Item),
@@ -29,7 +30,8 @@ use(Item) :-
     retract(player(Pts,Hgr,Thr)),
     asserta(player(NewPts,Hgr,Thr)),
     write('You used '), write(Item),  write('.'),nl,
-    write('You feel healthy'),nl,!.
+    write('You feel healthy'),nl,
+    \+ randomEnemyMove,!.
 
 /* EXPIRED FOOD */
 use(Item) :-
@@ -45,7 +47,8 @@ use(Item) :-
     retract(player(Pts,Hgr,Thr)),
     asserta(player(NewPts,NewHgr2,Thr)),
     write('You ate an EXPIRED '), write(Item), write('.'), nl,
-    write('You don''t feel healthy'),nl,!.
+    write('You don''t feel healthy'),nl,
+    \+ randomEnemyMove,!.
 
 use(Item) :-
     food(Item), expired(Item),
@@ -57,7 +60,8 @@ use(Item) :-
     retract(player(Pts,Hgr,Thr)),
     asserta(player(NewPts,NewHgr,Thr)),
     write('You ate an EXPIRED '), write(Item), write('.'), nl,
-    write('You don''t feel healthy'),nl,!.
+    write('You don''t feel healthy'),nl,
+    \+ randomEnemyMove,!.
 
 /* GOOD FOOD */
 use(Item) :-
@@ -74,7 +78,8 @@ use(Item) :-
     retract(player(Pts,Hgr,Thr)),
     asserta(player(NewPts2,NewHgr2,Thr)),
     write('You ate '),write(Item), write('.'),nl,
-    write('You feel satisfied'),nl,!.
+    write('You feel satisfied'),nl,
+    \+ randomEnemyMove,!.
 
 use(Item) :-
     food(Item),
@@ -88,7 +93,8 @@ use(Item) :-
     retract(player(Pts,Hgr,Thr)),
     asserta(player(NewPts2,NewHgr,Thr)),
     write('You ate '),write(Item), write('.'),nl,
-    write('You feel satisfied'),nl,!.
+    write('You feel satisfied'),nl,
+    \+ randomEnemyMove,!.
 
 use(Item) :-
     food(Item),
@@ -102,7 +108,8 @@ use(Item) :-
     retract(player(Pts,Hgr,Thr)),
     asserta(player(NewPts,NewHgr2,Thr)),
     write('You ate '),write(Item), write('.'),nl,
-    write('You feel satisfied'),nl,!.
+    write('You feel satisfied'),nl,
+    \+ randomEnemyMove,!.
 
 use(Item) :-
     food(Item),
@@ -114,7 +121,8 @@ use(Item) :-
     retract(player(Pts,Hgr,Thr)),
     asserta(player(NewPts,NewHgr,Thr)),
     write('You ate '),write(Item), write('.'),nl,
-    write('You feel satisfied'),nl,!.
+    write('You feel satisfied'),nl,
+    \+ randomEnemyMove,!.
 
 /* EXPIRED DRINK */
 use(Item) :-
@@ -130,7 +138,8 @@ use(Item) :-
     retract(player(Pts,Hgr,Thr)),
     asserta(player(NewPts,Hgr,NewThr2)),
     write('You drank an EXPIRED '), write(Item), write('.'),nl,
-    write('You don''t feel healthy'),nl,!.
+    write('You don''t feel healthy'),nl,
+    \+ randomEnemyMove,!.
 
 use(Item) :-
     drink(Item), expired(Item),
@@ -142,7 +151,8 @@ use(Item) :-
     retract(player(Pts,Hgr,Thr)),
     asserta(player(NewPts,Hgr,NewThr)),
     write('You drank an EXPIRED '), write(Item), write('.'),nl,
-    write('You don''t feel healthy'),nl,!.
+    write('You don''t feel healthy'),nl,
+    \+ randomEnemyMove,!.
 
 /* GOOD DRINK */
 use(Item) :-
@@ -159,7 +169,8 @@ use(Item) :-
     retract(player(Pts,Hgr,Thr)),
     asserta(player(NewPts2,Hgr,NewThr2)),
     write('You drank '),write(Item), write('.'),nl,
-    write('You feel satisfied'),nl,!.
+    write('You feel satisfied'),nl,
+    \+ randomEnemyMove,!.
 
 use(Item) :-
     drink(Item),
@@ -173,7 +184,8 @@ use(Item) :-
     retract(player(Pts,Hgr,Thr)),
     asserta(player(NewPts2,Hgr,NewThr)),
     write('You drank '),write(Item), write('.'),nl,
-    write('You feel satisfied'),nl,!.
+    write('You feel satisfied'),nl,
+    \+ randomEnemyMove,!.
 
 use(Item) :-
     drink(Item),
@@ -187,7 +199,8 @@ use(Item) :-
     retract(player(Pts,Hgr,Thr)),
     asserta(player(NewPts,Hgr,NewThr2)),
     write('You drank '),write(Item), write('.'),nl,
-    write('You feel satisfied.'),nl,!.
+    write('You feel satisfied.'),nl,
+    \+ randomEnemyMove,!.
 
 use(Item) :-
     drink(Item),
@@ -199,17 +212,20 @@ use(Item) :-
     retract(player(Pts,Hgr,Thr)),
     asserta(player(NewPts,Hgr,NewThr)),
     write('You drank '),write(Item), write('.'), nl,
-    write('You feel satisfied.'),nl,!.
+    write('You feel satisfied.'),nl,
+    \+ randomEnemyMove,!.
 
 /* ITEMS FROM ENEMY */
 use(Item) :-
     playerInventory(L),
     searchInven(Item,L,yes),
     write(Item), write(' cannot be used.'), nl,
-    write('But it might be useful in the future...'),!.
+    write('But it might be useful in the future...'),
+    \+ randomEnemyMove,!.
 
 /* NO ITEM TO BE USED */
 use(Item) :-
     playerInventory(L),
     searchInven(Item,L,no),
-    write('You don''t have it!'),nl.
+    write('You don''t have it!'),nl
+    \+ randomEnemyMove.
