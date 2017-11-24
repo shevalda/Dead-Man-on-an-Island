@@ -48,14 +48,14 @@ e :- i_am_at(X,Y),
 	edge([_,XMax],_),
 	X =:= XMax,
 	write('You see a vast sea..'), nl,
-    	write('You cannot go there!'), nl, !.
+    write('You cannot go there!'), nl, !.
 
 e :- i_am_at(X,Y),
     retract(i_am_at(X,Y)),
     Xnew is X + 1,
     asserta(i_am_at(Xnew,Y)),
-    \+moved, describe(X,Ynew), tab(1),
-    movedesc(X,Ynew), nl, nl,
+    \+moved, describe(Xnew,Y), tab(1),
+    movedesc(Xnew,Y), nl, nl,
 	notice_objects_at(Xnew,Y),
     notice_enemy_at(Xnew,Y), !.
 
@@ -74,8 +74,8 @@ w :- i_am_at(X,Y),
     retract(i_am_at(X,Y)),
     Xnew is X - 1,
     asserta(i_am_at(Xnew,Y)),
-    \+moved, describe(X,Ynew), tab(1),
-    movedesc(X,Ynew), nl, nl,
+    \+moved, describe(Xnew,Y), tab(1),
+    movedesc(Xnew,Y), nl, nl,
 	notice_objects_at(Xnew,Y),
     notice_enemy_at(Xnew,Y), !.
 	
