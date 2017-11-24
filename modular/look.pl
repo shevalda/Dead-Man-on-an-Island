@@ -7,9 +7,7 @@ look :-                 % tanpa radar
     i_am_at(X,Y),
     describe(X,Y),
     nl,
-    printLookMap,
-    notice_objects_at(X,Y),
-    notice_enemy_at(X,Y).
+    printLookMap.
 
 notice_objects_at(X,Y) :-
     at(Item,X,Y),
