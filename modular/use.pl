@@ -16,8 +16,8 @@ use(Item) :-
     NewPts2 is NewPts - R,
     retract(player(Pts,Hgr,Thr)),
     asserta(player(NewPts2,Hgr,Thr)),
-    write('You used '), write(Item), nl,
-    write('you feel healthy'),nl,!.
+    write('You used '), write(Item),  write('.'),nl,
+    write('You feel healthy'),nl,!.
 
 use(Item) :-
     medicine(Item),
@@ -28,8 +28,8 @@ use(Item) :-
     delInven(Item),
     retract(player(Pts,Hgr,Thr)),
     asserta(player(NewPts,Hgr,Thr)),
-    write('You used '), write(Item), nl,
-    write('you feel healthy'),nl,!.
+    write('You used '), write(Item),  write('.'),nl,
+    write('You feel healthy'),nl,!.
 
 /* EXPIRED FOOD */
 use(Item) :-
@@ -38,14 +38,14 @@ use(Item) :-
     searchInven(Item,L,yes),
     player(Pts,Hgr,Thr),
     NewPts is Pts-7, NewHgr is Hgr + 10,
-    NewHgr > 100,           % ketika Hunger jadi lebih dari 100
+    NewHgr > 100,
     R is NewHgr mod 100,
     delInven(Item),
     NewHgr2 is NewHgr - R,
     retract(player(Pts,Hgr,Thr)),
     asserta(player(NewPts,NewHgr2,Thr)),
-    write('You ate an EXPIRED '), write(Item), nl,
-    write('you don''t feel healthy'),nl,!.
+    write('You ate an EXPIRED '), write(Item), write('.'), nl,
+    write('You don''t feel healthy'),nl,!.
 
 use(Item) :-
     food(Item), expired(Item),
@@ -56,8 +56,8 @@ use(Item) :-
     delInven(Item),
     retract(player(Pts,Hgr,Thr)),
     asserta(player(NewPts,NewHgr,Thr)),
-    write('You ate an EXPIRED '), write(Item), nl,
-    write('you don''t feel healthy'),nl,!.
+    write('You ate an EXPIRED '), write(Item), write('.'), nl,
+    write('You don''t feel healthy'),nl,!.
 
 /* GOOD FOOD */
 use(Item) :-
@@ -73,8 +73,8 @@ use(Item) :-
     delInven(Item),
     retract(player(Pts,Hgr,Thr)),
     asserta(player(NewPts2,NewHgr2,Thr)),
-    write('You ate '),write(Item),nl,
-    write('you feel satisfied'),nl,!.
+    write('You ate '),write(Item), write('.'),nl,
+    write('You feel satisfied'),nl,!.
 
 use(Item) :-
     food(Item),
@@ -87,8 +87,8 @@ use(Item) :-
     delInven(Item),
     retract(player(Pts,Hgr,Thr)),
     asserta(player(NewPts2,NewHgr,Thr)),
-    write('You ate '),write(Item),nl,
-    write('you feel satisfied'),nl,!.
+    write('You ate '),write(Item), write('.'),nl,
+    write('You feel satisfied'),nl,!.
 
 use(Item) :-
     food(Item),
@@ -101,8 +101,8 @@ use(Item) :-
     delInven(Item),
     retract(player(Pts,Hgr,Thr)),
     asserta(player(NewPts,NewHgr2,Thr)),
-    write('You ate '),write(Item),nl,
-    write('you feel satisfied'),nl,!.
+    write('You ate '),write(Item), write('.'),nl,
+    write('You feel satisfied'),nl,!.
 
 use(Item) :-
     food(Item),
@@ -113,8 +113,8 @@ use(Item) :-
     delInven(Item),
     retract(player(Pts,Hgr,Thr)),
     asserta(player(NewPts,NewHgr,Thr)),
-    write('You ate '),write(Item),nl,
-    write('you feel satisfied'),nl,!.
+    write('You ate '),write(Item), write('.'),nl,
+    write('You feel satisfied'),nl,!.
 
 /* EXPIRED DRINK */
 use(Item) :-
@@ -123,14 +123,14 @@ use(Item) :-
     searchInven(Item,L,yes),
     player(Pts,Hgr,Thr),
     NewPts is Pts-7, NewThr is Thr + 10,
-    NewThr > 100,           % ketika Thrist jadi lebih dari 100
+    NewThr > 100,
     R is NewThr mod 100,
     delInven(Item),
     NewThr2 is NewThr - R,
     retract(player(Pts,Hgr,Thr)),
     asserta(player(NewPts,Hgr,NewThr2)),
-    write('You drank an EXPIRED '), write(Item), nl,
-    write('you don''t feel healthy'),nl,!.
+    write('You drank an EXPIRED '), write(Item), write('.'),nl,
+    write('You don''t feel healthy'),nl,!.
 
 use(Item) :-
     drink(Item), expired(Item),
@@ -141,8 +141,8 @@ use(Item) :-
     delInven(Item),
     retract(player(Pts,Hgr,Thr)),
     asserta(player(NewPts,Hgr,NewThr)),
-    write('You drank an EXPIRED '), write(Item), nl,
-    write('you don''t feel healthy'),nl,!.
+    write('You drank an EXPIRED '), write(Item), write('.'),nl,
+    write('You don''t feel healthy'),nl,!.
 
 /* GOOD DRINK */
 use(Item) :-
@@ -158,8 +158,8 @@ use(Item) :-
     delInven(Item),
     retract(player(Pts,Hgr,Thr)),
     asserta(player(NewPts2,Hgr,NewThr2)),
-    write('You drank '),write(Item),nl,
-    write('you feel satisfied'),nl,!.
+    write('You drank '),write(Item), write('.'),nl,
+    write('You feel satisfied'),nl,!.
 
 use(Item) :-
     drink(Item),
@@ -172,8 +172,8 @@ use(Item) :-
     delInven(Item),
     retract(player(Pts,Hgr,Thr)),
     asserta(player(NewPts2,Hgr,NewThr)),
-    write('You drank '),write(Item),nl,
-    write('you feel satisfied'),nl,!.
+    write('You drank '),write(Item), write('.'),nl,
+    write('You feel satisfied'),nl,!.
 
 use(Item) :-
     drink(Item),
@@ -186,8 +186,8 @@ use(Item) :-
     delInven(Item),
     retract(player(Pts,Hgr,Thr)),
     asserta(player(NewPts,Hgr,NewThr2)),
-    write('You drank '),write(Item),nl,
-    write('you feel satisfied'),nl,!.
+    write('You drank '),write(Item), write('.'),nl,
+    write('You feel satisfied.'),nl,!.
 
 use(Item) :-
     drink(Item),
@@ -198,17 +198,18 @@ use(Item) :-
     delInven(Item),
     retract(player(Pts,Hgr,Thr)),
     asserta(player(NewPts,Hgr,NewThr)),
-    write('You drank '),write(Item),nl,
-    write('you feel satisfied'),nl,!.
+    write('You drank '),write(Item), write('.'), nl,
+    write('You feel satisfied.'),nl,!.
 
 /* ITEMS FROM ENEMY */
 use(Item) :-
     playerInventory(L),
     searchInven(Item,L,yes),
-    write(Item), write(' cannot be used. But it might be useful in the future'),!.
+    write(Item), write(' cannot be used.'), nl,
+    write('But it might be useful in the future...'),!.
 
 /* NO ITEM TO BE USED */
 use(Item) :-
     playerInventory(L),
     searchInven(Item,L,no),
-    write('you don''t have it!'),nl.
+    write('You don''t have it!'),nl.
