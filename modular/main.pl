@@ -168,7 +168,7 @@ descmov(X,Y) :-
 
 descmov(X,Y) :-
 	edge([XMin,XMax],[YMin,YMax]),
-    X >= YMin, X =< YMax,
+    X >= XMin, X =< XMax,
     Y >= YMin, Y =< YMax,
     write('a lowland area'), !.
 
