@@ -1,5 +1,5 @@
 /*** DROP - Dropping an item ***/
-drop(Item) :-
+drop(_) :-
     checkStart(0),
     write('You have not started the game.'), !.
 

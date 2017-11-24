@@ -1,9 +1,9 @@
 /***** INVENTORY *****/
 /** Search in Inventory **/
-searchInven(Item, [], Bool) :-
+searchInven(_, [], Bool) :-
     Bool = no, !.
 
-searchInven(Item, [H|T], Bool) :-
+searchInven(Item, [H|_], Bool) :-
     H = Item,
     Bool = yes, !.
 
@@ -26,7 +26,7 @@ delInven(Item) :-
     retract(playerInventory(L)),
     asserta(playerInventory(LNew)).
 
-delFromInven(Item, [], NewInven) :-
+delFromInven(_, [], NewInven) :-
     NewInven = [].
 
 delFromInven(Item, [H|T], NewInven) :-
