@@ -134,6 +134,10 @@ printOneTile(X,Y) :-    % weapon
     (at(knife,X,Y) ; at(spear,X,Y)),
     write('W'), !.
 
+printOneTile(X,Y) :-    % radar
+    at(radar,X,Y),
+    write('R'), !.
+
 printOneTile(X,Y) :-    % player
     i_am_at(X,Y),
     write('P'), !.

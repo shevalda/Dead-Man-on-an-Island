@@ -50,5 +50,6 @@ help :-
         write('Food     : F'), nl,
         write('Water    : D'), nl,
         write('Weapon   : W'), nl,
+		write('Radar	: R'), nl,
         write('Land     : -'), nl,
         write('Sea      : X').
