@@ -1,5 +1,5 @@
 /*** USE - Using an item ***/
-use(Item) :-
+use(_) :-
     checkStart(0),
     write('You have not started the game.'), !.
 

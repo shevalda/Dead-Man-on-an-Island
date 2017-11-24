@@ -1,7 +1,6 @@
-cheat(hesoyam).
-cheat(jumpjet(_,_)).
+:- dynamic started/1.
 
-inst(quit).
+inst(start).
 inst(help).
 inst(look).
 inst(n).
@@ -9,45 +8,37 @@ inst(s).
 inst(w).
 inst(e).
 inst(map).
-inst(take(_)).
-inst(drop(_)).
-inst(use(_)).
+inst(take/1).
+inst(drop/1).
+inst(use/1).
 inst(attack).
 inst(status).
-inst(save_game(_)).
+inst(save_game).
 
 /*** START - Initializing game ***/
 start :-
-	checkStart(1),
-	write('You have started the game. Quit to restart the game.'), !.
-
-start :-
-	checkStart(0),
-    retract(checkStart(0)),
-    asserta(checkStart(1)),
-    instructions,nl,
-    help,nl,
-    desc,nl,
+	write('You have started the game. type quit to end the game.'),nl,
+	starting,
 	repeat,
-	read(Z),
-	user_in(Z),
-	nl,Z = quit.
-
-desc :-
-	i_am_at(X,Y),
-	describe(X,Y), tab(1),
-	movedesc(X,Y).
-
-user_in(X) :-
-	cheat(X),X,write('Dasar noob'),nl,!.
+	read(X),
+	user_in(X),
+	nl,X = quit.
 
 user_in(X) :-
 	\+inst(X),
-	write('incorrect command'),nl.
+	write('incorrect command').
 
 user_in(X) :-
 	inst(X),X.
 
+starting :-
+	retract(started(_)),
+	assert(started(1)),
+    instructions,nl,
+    help,nl,nl,
+	i_am_at(X,Y),
+	describe(X,Y), tab(1),
+	movedesc(X,Y).
 
 instructions:- 
 				write(' __                       _       _                                 _'),nl,
@@ -60,7 +51,6 @@ instructions:-
  				write('Welcome to Dead Man on an Island!'),nl,
  				write('This is an adventure game, writen in prolog programming languange.'),nl,
  				write('The purpose of this game is to find the parts needed to escape the island.').
-
 
 help :- 
 		write('Enter commands using standard prolog syntax.'),nl,
@@ -86,6 +76,5 @@ help :-
         write('Food     : F'), nl,
         write('Water    : D'), nl,
         write('Weapon   : W'), nl,
-		write('Radar    : R'), nl,
         write('Land     : -'), nl,
         write('Sea      : X').

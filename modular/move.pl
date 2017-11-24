@@ -4,7 +4,7 @@ n :-
     checkStart(0),
     write('You have not started the game.'), !.
 
-n :- i_am_at(X,Y),
+n :- i_am_at(_,Y),
 	edge(_,[_,YMax]),
 	Y =:= YMax,
 	write('You see a vast sea..'), nl,
@@ -24,7 +24,7 @@ s :-
     checkStart(0),
     write('You have not started the game.'), !.
 
-s :- i_am_at(X,Y),
+s :- i_am_at(_,Y),
 	edge(_,[YMin,_]),
 	Y =:= YMin,
 	write('You see a vast sea..'), nl,
@@ -44,7 +44,7 @@ e :-
     checkStart(0),
     write('You have not started the game.'), !.
 
-e :- i_am_at(X,Y),
+e :- i_am_at(X,_),
 	edge([_,XMax],_),
 	X =:= XMax,
 	write('You see a vast sea..'), nl,
@@ -64,7 +64,7 @@ w :-
     checkStart(0),
     write('You have not started the game.'), !.
 
-w :- i_am_at(X,Y),
+w :- i_am_at(X,_),
 	edge([XMin,_],_),
 	X =:= XMin,
 	write('You see a vast sea..'), nl,

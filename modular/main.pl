@@ -14,6 +14,8 @@
 :- include(take).
 :- include(use).
 
+:- write('Write "start." to start the game!'),nl,nl.
+
 /* Check the game has started or not */
 checkStart(0).
 
@@ -86,7 +88,7 @@ food(kornet).
 food(yogurt).
 
 drink(water).
-drink(coca_cola).
+drink(sprite).
 
 medicine(panadol).
 medicine(betadine).
@@ -112,7 +114,7 @@ playerInventory([]).
 
 /** For printing LOOK's map and MAP **/
 printOneTile(X,Y) :-    % enemy
-    alive(enemy,X,Y,RaftItem),
+    alive(enemy,X,Y,_),
     write('E'), !.
 
 printOneTile(X,Y) :-    % medicine
@@ -147,7 +149,7 @@ printOneTile(X,Y) :-	%accessible
     X >=XMin, X=<XMax, Y>=YMin, Y=<YMax,
     write('-'), !.
 
-printOneTile(X,Y) :-	%inaccessible
+printOneTile(_,_) :-	%inaccessible
     write('X').
 
 /** Describe for START and LOOK **/
@@ -157,7 +159,7 @@ describe(X,Y) :-
     Y>=YStart, Y=<YEnd, 
     write('You\'re in the highland.'), !.
 
-describe(X,Y) :-
+describe(_,_) :-
     write('You\'re in the lowland.').
     
 descmov(X,Y) :-
@@ -187,13 +189,13 @@ movedesc(X,Y) :-
 
 /***** PLAYER'S ALIVE/DEATH STATE *****/
 /* check alive */
-playerchk :- player(Ht,Hg,Th),
+playerchk :- player(Ht,_,_),
 	Ht =< 0, die, !.
 
-playerchk :- player(Ht,Hg,Th),
+playerchk :- player(_,Hg,_),
 	Hg =< 0, die, !.
 
-playerchk :- player(Ht,Hg,Th),
+playerchk :- player(_,_,Th),
 	Th =< 0, die, !.
 
 playerchk :-
@@ -220,12 +222,27 @@ win :-
     retract(checkStart(1)),
     asserta(checkStart(0)).
 
+jumpjet(M,N) :-
+    i_am_at(X,Y),
+    retract(i_am_at(X,Y)),
+    asserta(i_am_at(M,N)).
+
+hesoyam :-
+    player(X,Y,Z),
+    retract(player(X,Y,Z)),
+    asserta(player(100,100,100)).
+
 /* QUIT */
 quit :-
     checkStart(1),
     retract(checkStart(1)),
     asserta(checkStart(0)),
-    write('You have quitted the game.'), !.
+    write('You have quitted the game.'),
+    retractall(at(_, _, _)),
+    retractall(i_am_at(_,_)),
+    retract(player(_,_,_)),
+    retractall(alive(_,_,_,_)),
+    [default], !.
 
 quit :-
     write('You have not started the game.').

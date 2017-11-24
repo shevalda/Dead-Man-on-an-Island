@@ -1,5 +1,5 @@
 /*** TAKE - Taking an item ***/
-take(Item) :-
+take(_) :-
     checkStart(0),
     write('You have not started the game.'), !.
 
