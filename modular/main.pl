@@ -98,6 +98,10 @@ medicine(diapet).
 weapon(spear).
 weapon(knife).
 
+weaponDamageTaken(spear,5).
+weaponDamageTaken(knife,8).
+weaponDamageTaken(none,12).
+
 alive(enemy,3,13,'chopped wood').
 alive(enemy,5,11, 'rope').
 alive(enemy,8,12, 'compass').
