@@ -55,10 +55,14 @@ load_game(FileName) :-
     format('Your game from ~a has been loaded.', [FileName]), nl.
 
 load_internal(FileName) :-
-    retractall(at(I,X,Y)),
-    retract(i_am_at(X,Y)),
+    retractall(at(_,_,_)),
+    retract(i_am_at(_,_)),
+    retractall(alive(_,_,_,_)),
+    retract(player(_,_,_)),
+    retract(playerInventory(_)),
+    retractall(playerWeapon(_)),
     open(FileName, read, Stream),
-    readfile(Stream, What),
+    readfile(Stream, _),
     close(Stream).
 
 readfile(Stream, []) :-
