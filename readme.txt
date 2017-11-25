@@ -16,6 +16,5 @@ INSTRUCTIONS
 	- Buka file "main.pl".
 	
 ADDITIONAL
-	- Ketika consult file "main.pl" setelah prolog dibuka, akan ada banyak
-	  WARNING. Hal ini tidak berarti game tidak dapat dijalankan sebagaimana
-	  seharusnya.
+	- Game mungkin akan keluar secara tiba-tiba jika perintah salah syntax
+	(berbeda dengan perintah yang memang tidak ada di command game)
