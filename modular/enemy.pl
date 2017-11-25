@@ -8,11 +8,12 @@ randomEnemyMove :-
 enemyAttack(X,Y) :-
 	i_am_at(XP,YP),
 	X=:=XP, Y=:=YP,
+	weaponDamageTaken(none,Dmg),
     retract(player(Pts,Hgr,Thr)),
-    NewPts is Pts-10, % dmgnya diganti konstanta aja
+    NewPts is Pts-Dmg, % dmgnya diganti konstanta aja
     asserta(player(NewPts,Hgr,Thr)),
     write('There is an enemy here. '),
-    write('You were attacked and took 10 damage'),nl,
+    write('You were attacked and took '), write(Dmg), write(' damage'),nl,
 	playerchk, !.
 	
 enemyMove(X,Y,RaftItem) :-
