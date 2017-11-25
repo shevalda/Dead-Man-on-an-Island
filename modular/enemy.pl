@@ -10,14 +10,13 @@ enemyAttack(X,Y) :-
 	X=:=XP, Y=:=YP,
 	weaponDamageTaken(none,Dmg),
     retract(player(Pts,Hgr,Thr)),
-    NewPts is Pts-Dmg, % dmgnya diganti konstanta aja
+    NewPts is Pts-Dmg,
     asserta(player(NewPts,Hgr,Thr)),
-    write('There is an enemy here. '),
     write('You were attacked and took '), write(Dmg), write(' damage'),nl,
 	playerchk, !.
 	
 enemyMove(X,Y,RaftItem) :-
-	i_am_at(XP,YP),
+	i_am_at(XP,_),
 	X=\=XP,
 	edge([XMin,XMax],[YMin,YMax]),
     random(-1,2,Val),
@@ -28,7 +27,7 @@ enemyMove(X,Y,RaftItem) :-
     asserta(alive(enemy,Xnew,Ynew,RaftItem)), !.
 		
 enemyMove(X,Y,RaftItem) :-
-	i_am_at(XP,YP),
+	i_am_at(_,YP),
 	Y=\=YP,
 	edge([XMin,XMax],[YMin,YMax]),
     random(-1,2,Val),

@@ -6,7 +6,7 @@ attack :-
 /*ketika player tidak memegang weapon*/
 attack :-
     i_am_at(X,Y),
-    alive(enemy,X,Y,RaftItem),
+    alive(enemy,X,Y,_),
     playerWeapon(none),
 	weaponDamageTaken(none,Dmg),
     retract(player(Pts,Hgr,Thr)),
@@ -18,16 +18,16 @@ attack :-
 /*ketika player memegang weapon*/
 attack :-
 	i_am_at(X,Y),
-    alive(enemy,X,Y,RaftItem),
+    alive(enemy,X,Y,R),
     playerWeapon(Weapon),
 	weaponDamageTaken(Weapon,Dmg),
-    retract(alive(enemy,X,Y,RaftItem)),
+    retract(alive(enemy,X,Y,_)),
     retract(player(Pts,Hgr,Thr)),
     NewPts is Pts - Dmg,
     asserta(player(NewPts,Hgr,Thr)),
     write('You took '), write(Dmg), write(' damage and the enemy died'),nl,
-    addInven(RaftItem),
-    write('You obtained '), write(RaftItem), nl,
+    addInven(R),
+    write('You obtained '), write(R), nl,
     !, playerchk, !.
 
 
