@@ -1,5 +1,6 @@
 :- dynamic(at/3, i_am_at/2, alive/4, player/3, playerInventory/1, playerWeapon/1, checkStart/1).
 
+
 /*** IMPORTING OTHER FILES ***/
 :- include(attack).
 :- include(drop).
@@ -197,13 +198,13 @@ movedesc(X,Y) :-
 /***** PLAYER'S ALIVE/DEATH STATE *****/
 /* check alive */
 playerchk :- player(Ht,_,_),
-	Ht =< 0, die, !.
+	Ht < 1, die, !.
 
 playerchk :- player(_,Hg,_),
-	Hg =< 0, die, !.
+	Hg < 1, die, !.
 
 playerchk :- player(_,_,Th),
-	Th =< 0, die, !.
+	Th < 1, die, !.
 
 playerchk :-
     \+ alive(enemy,_,_,_),
@@ -214,8 +215,7 @@ die :-
 	write('Your vision slowly fade while you'),nl,
 	write('took your last breath'),nl,
 	write('You Died - GAME OVER'), nl,
-    retract(checkStart(1)),
-    asserta(checkStart(0)).
+    quit,abort.
 
 /***** Player wins *****/
 win :- 
@@ -227,7 +227,8 @@ win :-
     write('You hop to raft and looked one more to time to the island you might never see again.'), nl, nl,
     write('THE END'),
     retract(checkStart(1)),
-    asserta(checkStart(0)).
+    asserta(checkStart(0)),
+    abort.
 
 jumpjet(M,N) :-
     i_am_at(X,Y),

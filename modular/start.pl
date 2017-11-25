@@ -1,6 +1,7 @@
 cheat(hesoyam).
 cheat(jumpjet(_,_)).
 
+inst(die).
 inst(quit).
 inst(help).
 inst(look).
@@ -29,7 +30,6 @@ start :-
     help,nl,nl,
     desc,nl,
 	repeat,
-	write(' > '),
 	read(Z),
 	user_in(Z),
 	nl,Z = quit.
