@@ -78,7 +78,7 @@ help :-
 		write(' attack.                     : to attack  an enemy in same square'),nl,
 		write(' status.                     : to show the player status(health, hunger, thirst, weapon)'),nl,
 		write(' save_game(''filename.pl'').   : to save a game'),nl,
-		write(' load_game(filename).        : to load saved game'),
+		write(' load_game(''filename.pl'').   : to load saved game'),
 		nl,nl,
 		write('Legends:'), nl,
         write('Player   : P'), nl,

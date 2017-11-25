@@ -16,6 +16,8 @@
 
 :- initialization(nl).
 :- initialization(write('Write "start." to start the game!')).
+:- initialization(nl).
+:- initialization(write('Write "load_game(''filename.pl'')" to load previous saved game!')).
 
 /* Check the game has started or not */
 checkStart(0).
@@ -102,17 +104,17 @@ weaponDamageTaken(spear,5).
 weaponDamageTaken(knife,8).
 weaponDamageTaken(none,12).
 
-alive(enemy,3,13,'chopped wood').
+alive(enemy,3,13,'wood').
 alive(enemy,5,11, 'rope').
 alive(enemy,8,12, 'compass').
-alive(enemy,13,9, 'used paddle').
-alive(enemy,3,8, 'first aid kit').
-alive(enemy,10,7, 'torch light').
+alive(enemy,13,9, 'paddle').
+alive(enemy,3,8, 'pants').
+alive(enemy,10,7, 'flashlight').
 alive(enemy,12,7, 'whistle').
 alive(enemy,12,6, 'flares').
-alive(enemy,7,4, 'suncream').
+alive(enemy,7,4, 'sunscreen').
 alive(enemy,9,4, 'bagpack').
-alive(enemy,13,3, 'extra clothes').
+alive(enemy,13,3, 'shirt').
 
 /* Player's list of inventory */
 playerInventory([]).
@@ -242,8 +244,8 @@ quit :-
     checkStart(1),
     retract(checkStart(1)),
     asserta(checkStart(0)),
-    write('You have quitted the game.'),nl,nl,
-    [default], !.
+    write('You have quitted the game.'),nl,
+    load_internal('default.pl'), !.
 
 quit :-
     write('You have not started the game.').

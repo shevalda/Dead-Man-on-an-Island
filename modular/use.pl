@@ -227,5 +227,5 @@ use(Item) :-
 use(Item) :-
     playerInventory(L),
     searchInven(Item,L,no),
-    write('You don''t have it!'),nl
+    write('You don''t have it!'),nl,
     \+ randomEnemyMove.
