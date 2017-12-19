@@ -1,5 +1,0 @@
-How to write to file
-  https://stackoverflow.com/questions/10857202/prolog-insert-modify-and-delete-facts-on-a-separated-database-text-file
-
-Prolog documentation
-  http://www.gprolog.org/manual/gprolog.html
